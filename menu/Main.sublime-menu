@@ -1,0 +1,14 @@
+[
+    {
+        "id": "tools",
+        "children": [
+            {
+                "caption": "-"
+            },
+            {
+                "caption": "Sublime Text Loggings",
+                "command": "toggle_loggings"
+            }
+        ]
+    }
+]

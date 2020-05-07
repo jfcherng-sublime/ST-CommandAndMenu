@@ -1,0 +1,6 @@
+[
+    {
+        "caption": "Toggle All Sublime Text Loggings",
+        "command": "toggle_loggings"
+    }
+]
