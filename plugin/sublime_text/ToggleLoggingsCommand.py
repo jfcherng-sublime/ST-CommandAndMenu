@@ -18,7 +18,7 @@ class ToggleLoggingsCommand(sublime_plugin.ApplicationCommand):
         for logging in self.loggings:
             try:
                 getattr(sublime, logging)(self.is_logging_enable)
-            except:
+            except Exception:
                 pass
 
         sublime.message_dialog(
