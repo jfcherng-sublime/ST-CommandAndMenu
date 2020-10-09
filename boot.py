@@ -1,7 +1,8 @@
 from .plugin import set_up, tear_down
 
 # main plugin classes
-from .plugin.sublime_text.ToggleLoggingsCommand import *
+from .plugin.sublime_text.OpenSublimeTextDirCommand import *
+from .plugin.sublime_text.ToggleConsoleLoggingsCommand import *
 
 
 def plugin_loaded() -> None:

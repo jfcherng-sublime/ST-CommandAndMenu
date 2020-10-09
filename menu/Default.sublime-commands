@@ -1,6 +1,51 @@
 [
     {
-        "caption": "Toggle All Sublime Text Loggings",
-        "command": "toggle_loggings"
-    }
+        "caption": "ToggleConsoleLoggings: Toggle All Console Loggings",
+        "command": "toggle_console_loggings"
+    },
+    {
+        "caption": "ToggleConsoleLoggings: Open ST Directory: Bin",
+        "command": "open_sublime_text_dir",
+        "args": { "folder": "bin" }
+    },
+    {
+        "caption": "ToggleConsoleLoggings: Open ST Directory: Cache",
+        "command": "open_sublime_text_dir",
+        "args": { "folder": "cache" }
+    },
+    {
+        "caption": "ToggleConsoleLoggings: Open ST Directory: Data",
+        "command": "open_sublime_text_dir",
+        "args": { "folder": "data" }
+    },
+    {
+        "caption": "ToggleConsoleLoggings: Open ST Directory: Index",
+        "command": "open_sublime_text_dir",
+        "args": { "folder": "index" }
+    },
+    {
+        "caption": "ToggleConsoleLoggings: Open ST Directory: Installed Packages",
+        "command": "open_sublime_text_dir",
+        "args": { "folder": "installed_packages" }
+    },
+    {
+        "caption": "ToggleConsoleLoggings: Open ST Directory: Lib",
+        "command": "open_sublime_text_dir",
+        "args": { "folder": "lib" }
+    },
+    {
+        "caption": "ToggleConsoleLoggings: Open ST Directory: Local",
+        "command": "open_sublime_text_dir",
+        "args": { "folder": "local" }
+    },
+    {
+        "caption": "ToggleConsoleLoggings: Open ST Directory: Log",
+        "command": "open_sublime_text_dir",
+        "args": { "folder": "log" }
+    },
+    {
+        "caption": "ToggleConsoleLoggings: Open ST Directory: Packages",
+        "command": "open_sublime_text_dir",
+        "args": { "folder": "packages" }
+    },
 ]

@@ -1,14 +1,67 @@
 [
     {
-        "id": "tools",
+        "id": "preferences",
         "children": [
             {
                 "caption": "-"
             },
             {
-                "caption": "Sublime Text Loggings",
-                "command": "toggle_loggings",
+                "caption": "Console Loggings",
+                "command": "toggle_console_loggings",
                 "checkbox": true
+            },
+            {
+                "caption": "Browse Sublime Text Directory",
+                "children": [
+                    {
+                        "caption": "Bin",
+                        "command": "open_sublime_text_dir",
+                        "args": { "folder": "bin" }
+                    },
+                    {
+                        "caption": "Cache",
+                        "command": "open_sublime_text_dir",
+                        "args": { "folder": "cache" }
+                    },
+                    {
+                        "caption": "Data",
+                        "command": "open_sublime_text_dir",
+                        "args": { "folder": "data" }
+                    },
+                    {
+                        "caption": "Index",
+                        "command": "open_sublime_text_dir",
+                        "args": { "folder": "index" }
+                    },
+                    {
+                        "caption": "Installed Packages",
+                        "command": "open_sublime_text_dir",
+                        "args": { "folder": "installed_packages" }
+                    },
+                    {
+                        "caption": "Lib",
+                        "command": "open_sublime_text_dir",
+                        "args": { "folder": "lib" }
+                    },
+                    {
+                        "caption": "Local",
+                        "command": "open_sublime_text_dir",
+                        "args": { "folder": "local" }
+                    },
+                    {
+                        "caption": "Log",
+                        "command": "open_sublime_text_dir",
+                        "args": { "folder": "log" }
+                    },
+                    {
+                        "caption": "Packages",
+                        "command": "open_sublime_text_dir",
+                        "args": { "folder": "packages" }
+                    }
+                ]
+            },
+            {
+                "caption": "-"
             }
         ]
     }
