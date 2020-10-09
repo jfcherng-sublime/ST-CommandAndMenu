@@ -3,7 +3,7 @@ import sublime
 import sublime_plugin
 
 from functools import lru_cache
-from typing import Dict, Mapping
+from typing import Dict
 
 
 @lru_cache()
@@ -42,5 +42,5 @@ def get_folder_path(folder: str) -> str:
 
 
 class OpenSublimeTextDirCommand(sublime_plugin.ApplicationCommand):
-    def run(self, folder: str) -> None:
+    def run(self, folder: str) -> None:  # type: ignore
         sublime.active_window().run_command("open_dir", {"dir": get_folder_path(folder)})
