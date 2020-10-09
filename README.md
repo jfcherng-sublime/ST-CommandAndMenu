@@ -1,8 +1,6 @@
 # ST-CommandAndMenu
 
-Provides a shortcut for turning on/off all Sublime Text's logging functionalities.
-
-Just like you manually call all `sublime.log_*(...)` methods in the console.
+Provide some commands and menus for my personal uses.
 
 ## Installation
 
