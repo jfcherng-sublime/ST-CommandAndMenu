@@ -6,7 +6,7 @@ from functools import lru_cache
 from typing import Dict
 
 
-@lru_cache()
+@lru_cache
 def get_folder_map() -> Dict[str, str]:
     return {
         k: os.path.realpath(v)
@@ -24,7 +24,7 @@ def get_folder_map() -> Dict[str, str]:
     }
 
 
-@lru_cache()
+@lru_cache
 def get_folder_path(folder: str) -> str:
     m = get_folder_map()
 
