@@ -1,15 +1,10 @@
 [
     {
-        "id": "command_and_menu",
-        "caption": "C & A",
+        "id": "extras",
+        "caption": "Extras",
         "children": [
             {
                 "caption": "-"
-            },
-            {
-                "caption": "Console Loggings",
-                "command": "toggle_console_loggings",
-                "checkbox": true
             },
             {
                 "caption": "Browse Directory...",
@@ -58,6 +53,46 @@
                         "caption": "Packages",
                         "command": "open_sublime_text_dir",
                         "args": { "folder": "packages" }
+                    }
+                ]
+            },
+            {
+                "caption": "Console Loggings",
+                "children": [
+                    {
+                        "caption": "all",
+                        "command": "ask_console_loggings"
+                    },
+                    {
+                        "caption": "-"
+                    },
+                    {
+                        "caption": "log_build_systems",
+                        "command": "ask_log_build_systems"
+                    },
+                    {
+                        "caption": "log_commands",
+                        "command": "ask_log_commands"
+                    },
+                    {
+                        "caption": "log_control_tree",
+                        "command": "ask_log_control_tree"
+                    },
+                    {
+                        "caption": "log_fps",
+                        "command": "ask_log_fps"
+                    },
+                    {
+                        "caption": "log_indexing",
+                        "command": "ask_log_indexing"
+                    },
+                    {
+                        "caption": "log_input",
+                        "command": "ask_log_input"
+                    },
+                    {
+                        "caption": "log_result_regex",
+                        "command": "ask_log_result_regex"
                     }
                 ]
             },

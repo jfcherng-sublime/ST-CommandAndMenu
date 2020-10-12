@@ -1,7 +1,35 @@
 [
     {
-        "caption": "CommandAndMenu: Toggle All Console Loggings",
-        "command": "toggle_console_loggings"
+        "caption": "CommandAndMenu: (De-)Activate All Console Loggings",
+        "command": "ask_console_loggings"
+    },
+    {
+        "caption": "CommandAndMenu: (De-)Activate log_build_systems()",
+        "command": "ask_log_build_systems"
+    },
+    {
+        "caption": "CommandAndMenu: (De-)Activate log_commands()",
+        "command": "ask_log_commands"
+    },
+    {
+        "caption": "CommandAndMenu: (De-)Activate log_control_tree()",
+        "command": "ask_log_control_tree"
+    },
+    {
+        "caption": "CommandAndMenu: (De-)Activate log_fps()",
+        "command": "ask_log_fps"
+    },
+    {
+        "caption": "CommandAndMenu: (De-)Activate log_indexing()",
+        "command": "ask_log_indexing"
+    },
+    {
+        "caption": "CommandAndMenu: (De-)Activate log_input()",
+        "command": "ask_log_input"
+    },
+    {
+        "caption": "CommandAndMenu: (De-)Activate log_result_regex()",
+        "command": "ask_log_result_regex"
     },
     {
         "caption": "CommandAndMenu: Open ST Directory: Bin",
