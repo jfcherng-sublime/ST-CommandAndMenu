@@ -1,6 +1,7 @@
 [
     {
-        "id": "preferences",
+        "id": "command_and_menu",
+        "caption": "C & A",
         "children": [
             {
                 "caption": "-"
