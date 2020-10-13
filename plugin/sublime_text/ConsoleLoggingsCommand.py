@@ -52,7 +52,7 @@ class AskConsoleLoggingsCommand(sublime_plugin.ApplicationCommand):
                 getattr(sublime, method)(enable)
                 print("{} console logging: {}".format("Activate" if enable else "Deactivate", method))
             except Exception:
-                pass
+                print("Something wrong happened during {}: {}", "activating" if enable else "deactivating", method)
 
 
 class AskLogBuildSystemsCommand(AskConsoleLoggingsCommand):

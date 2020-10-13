@@ -2,6 +2,7 @@
     {
         "id": "extras",
         "caption": "Extras",
+        "mnemonic": "x",
         "children": [
             {
                 "caption": "-"
