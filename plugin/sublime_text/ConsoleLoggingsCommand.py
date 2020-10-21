@@ -1,33 +1,37 @@
 import sublime
 import sublime_plugin
 
-from abc import abstractmethod
+from abc import ABCMeta
 from typing import List
 
+ST_METHODS = set(dir(sublime))
 ST_VERSION = int(sublime.version())
 
 
-class AskConsoleLoggingsCommand(sublime_plugin.ApplicationCommand):
+class AbstractAskConsoleLoggingsCommand(sublime_plugin.ApplicationCommand, metaclass=ABCMeta):
     row_separator = "-" * 30
-    logging_methods = sorted(filter(lambda method: method.startswith("log_"), dir(sublime)))
 
-    @abstractmethod
     def is_checked(self) -> bool:
         # @todo there is no way to know whether a certain log_*() method is activated or not at this moment
         return False
 
-    @abstractmethod
-    def is_visible(self) -> bool:
-        return True
-
     def is_enabled(self) -> bool:
-        return self.is_visible()
+        # if there is a usable command
+        return any((method in ST_METHODS) for method in self.get_logging_method_names())
+
+    def is_visible(self) -> bool:
+        return self.is_enabled()
+
+    def get_logging_method_names(self) -> List[str]:
+        """ Gets names of logging methods. """
+
+        return [self.name()[4:]]  # strips the leading "ask_" from the command name
 
     def run(self) -> None:
         answer = sublime.yes_no_cancel_dialog(
             "(De-)Activate console logging methods?\n{}{}".format(
                 self.row_separator + "\n",
-                "\n".join(self.logging_methods) + "\n",
+                "\n".join(self.get_logging_method_names()) + "\n",
             ),
             "Activate",
             "Deactivate",
@@ -37,14 +41,10 @@ class AskConsoleLoggingsCommand(sublime_plugin.ApplicationCommand):
             return
 
         if answer == sublime.DIALOG_NO:
-            self._enable_logging_methods(self.logging_methods, False)
-
-            return
+            return self._enable_logging_methods(self.get_logging_method_names(), False)
 
         if answer == sublime.DIALOG_YES:
-            self._enable_logging_methods(self.logging_methods, True)
-
-            return
+            return self._enable_logging_methods(self.get_logging_method_names(), True)
 
     def _enable_logging_methods(self, methods: List[str], enable: bool = True) -> None:
         for method in methods:
@@ -52,53 +52,58 @@ class AskConsoleLoggingsCommand(sublime_plugin.ApplicationCommand):
                 getattr(sublime, method)(enable)
                 print("{} console logging: {}".format("Activate" if enable else "Deactivate", method))
             except Exception:
-                print("Something wrong happened during {}: {}", "activating" if enable else "deactivating", method)
+                print(
+                    "Something wrong happened during {}: {}".format(
+                        "activating" if enable else "deactivating",
+                        method,
+                    )
+                )
 
 
-class AskLogBuildSystemsCommand(AskConsoleLoggingsCommand):
-    logging_methods = ["log_build_systems"]
+class AskLogAllCommand(AbstractAskConsoleLoggingsCommand):
+    """ Ask for activating all logging commands. """
 
-    def is_visible(self) -> bool:
-        return ST_VERSION >= 3080
-
-
-class AskLogCommandsCommand(AskConsoleLoggingsCommand):
-    logging_methods = ["log_commands"]
-
-    def is_visible(self) -> bool:
-        return ST_VERSION >= 3006
+    def get_logging_method_names(self) -> List[str]:
+        return sorted(filter(lambda method: method.startswith("log_"), dir(sublime)))
 
 
-class AskLogControlTreeCommand(AskConsoleLoggingsCommand):
-    logging_methods = ["log_control_tree"]
+class AskLogBuildSystemsCommand(AbstractAskConsoleLoggingsCommand):
+    """ Ask for activating sublime.log_build_systems() """
 
-    def is_visible(self) -> bool:
-        return ST_VERSION >= 4064
-
-
-class AskLogFpsCommand(AskConsoleLoggingsCommand):
-    logging_methods = ["log_fps"]
-
-    def is_visible(self) -> bool:
-        return ST_VERSION >= 4075
+    ...
 
 
-class AskLogIndexingCommand(AskConsoleLoggingsCommand):
-    logging_methods = ["log_indexing"]
+class AskLogCommandsCommand(AbstractAskConsoleLoggingsCommand):
+    """ Ask for activating sublime.log_commands() """
 
-    def is_visible(self) -> bool:
-        return ST_VERSION >= 3009
-
-
-class AskLogInputCommand(AskConsoleLoggingsCommand):
-    logging_methods = ["log_input"]
-
-    def is_visible(self) -> bool:
-        return ST_VERSION >= 3006
+    ...
 
 
-class AskLogResultRegexCommand(AskConsoleLoggingsCommand):
-    logging_methods = ["log_result_regex"]
+class AskLogControlTreeCommand(AbstractAskConsoleLoggingsCommand):
+    """ Ask for activating sublime.log_control_tree() """
 
-    def is_visible(self) -> bool:
-        return ST_VERSION >= 3006
+    ...
+
+
+class AskLogFpsCommand(AbstractAskConsoleLoggingsCommand):
+    """ Ask for activating sublime.log_fps() """
+
+    ...
+
+
+class AskLogIndexingCommand(AbstractAskConsoleLoggingsCommand):
+    """ Ask for activating sublime.log_indexing() """
+
+    ...
+
+
+class AskLogInputCommand(AbstractAskConsoleLoggingsCommand):
+    """ Ask for activating sublime.log_input() """
+
+    ...
+
+
+class AskLogResultRegexCommand(AbstractAskConsoleLoggingsCommand):
+    """ Ask for activating sublime.log_result_regex() """
+
+    ...

@@ -1,7 +1,7 @@
 [
     {
         "caption": "CommandAndMenu: (De-)Activate All Console Loggings",
-        "command": "ask_console_loggings"
+        "command": "ask_log_all"
     },
     {
         "caption": "CommandAndMenu: (De-)Activate log_build_systems()",
@@ -76,4 +76,9 @@
         "command": "open_sublime_text_dir",
         "args": { "folder": "packages" }
     },
+    {
+        "caption": "CommandAndMenu: Open ST Directory: Package Storage (LSP)",
+        "command": "open_sublime_text_dir",
+        "args": { "folder": "package_storage" }
+    }
 ]

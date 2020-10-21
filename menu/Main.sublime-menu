@@ -8,7 +8,7 @@
                 "caption": "-"
             },
             {
-                "caption": "Browse Directory...",
+                "caption": "Browse Directory…",
                 "children": [
                     {
                         "caption": "Bin",
@@ -54,15 +54,23 @@
                         "caption": "Packages",
                         "command": "open_sublime_text_dir",
                         "args": { "folder": "packages" }
+                    },
+                    {
+                        "caption": "-"
+                    },
+                    {
+                        "caption": "Package Storage (LSP)",
+                        "command": "open_sublime_text_dir",
+                        "args": { "folder": "package_storage" }
                     }
                 ]
             },
             {
-                "caption": "Console Loggings",
+                "caption": "Console Logging…",
                 "children": [
                     {
                         "caption": "all",
-                        "command": "ask_console_loggings"
+                        "command": "ask_log_all"
                     },
                     {
                         "caption": "-"
