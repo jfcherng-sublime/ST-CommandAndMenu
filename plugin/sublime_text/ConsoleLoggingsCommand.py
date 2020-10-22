@@ -40,11 +40,7 @@ class AbstractAskConsoleLoggingsCommand(sublime_plugin.ApplicationCommand, metac
         if answer == sublime.DIALOG_CANCEL:
             return
 
-        if answer == sublime.DIALOG_NO:
-            return self._enable_logging_methods(self.get_logging_method_names(), False)
-
-        if answer == sublime.DIALOG_YES:
-            return self._enable_logging_methods(self.get_logging_method_names(), True)
+        self._enable_logging_methods(self.get_logging_method_names(), answer == sublime.DIALOG_YES)
 
     def _enable_logging_methods(self, methods: List[str], enable: bool = True) -> None:
         for method in methods:
