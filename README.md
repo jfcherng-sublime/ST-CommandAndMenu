@@ -1,6 +1,6 @@
 # ST-CommandAndMenu
 
-Provide some commands and menus for my personal uses.
+(Only for Sublime Text 4) Provide some commands and menus for my personal uses.
 
 ## Installation
 
