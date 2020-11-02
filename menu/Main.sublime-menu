@@ -11,6 +11,17 @@
                 "caption": "Browse Directory…",
                 "children": [
                     {
+                        "caption": "-"
+                    },
+                    {
+                        "caption": "Temporary Directory",
+                        "command": "open_sublime_text_dir",
+                        "args": { "folder": "temp_dir" }
+                    },
+                    {
+                        "caption": "-"
+                    },
+                    {
                         "caption": "Bin",
                         "command": "open_sublime_text_dir",
                         "args": { "folder": "bin" }
@@ -62,12 +73,18 @@
                         "caption": "Package Storage (LSP)",
                         "command": "open_sublime_text_dir",
                         "args": { "folder": "package_storage" }
+                    },
+                    {
+                        "caption": "-"
                     }
                 ]
             },
             {
                 "caption": "Console Logging…",
                 "children": [
+                    {
+                        "caption": "-"
+                    },
                     {
                         "caption": "all",
                         "command": "ask_log_all"
@@ -102,6 +119,9 @@
                     {
                         "caption": "log_result_regex",
                         "command": "ask_log_result_regex"
+                    },
+                    {
+                        "caption": "-"
                     }
                 ]
             },

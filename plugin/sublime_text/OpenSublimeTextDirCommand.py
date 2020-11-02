@@ -1,6 +1,7 @@
 import os
 import sublime
 import sublime_plugin
+import tempfile
 
 from functools import lru_cache
 from typing import Dict
@@ -11,6 +12,8 @@ def get_folder_map() -> Dict[str, str]:
     return {
         k: os.path.realpath(v)
         for k, v in {
+            # from OS
+            "temp_dir": tempfile.gettempdir(),
             # from ST itself
             "bin": os.path.dirname(sublime.executable_path()),
             "cache": sublime.cache_path(),

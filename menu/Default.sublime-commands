@@ -32,6 +32,11 @@
         "command": "ask_log_result_regex"
     },
     {
+        "caption": "CommandAndMenu: Open ST Directory: Temporary Directory",
+        "command": "open_sublime_text_dir",
+        "args": { "folder": "bin" }
+    },
+    {
         "caption": "CommandAndMenu: Open ST Directory: Bin",
         "command": "open_sublime_text_dir",
         "args": { "folder": "bin" }
