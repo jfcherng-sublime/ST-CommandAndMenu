@@ -21,6 +21,11 @@
                         "caption": "-"
                     },
                     {
+                        "caption": "User Home",
+                        "command": "open_sublime_text_dir",
+                        "args": { "folder": "home" }
+                    },
+                    {
                         "caption": "Temporary Directory",
                         "command": "open_sublime_text_dir",
                         "args": { "folder": "temp_dir" }

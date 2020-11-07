@@ -36,6 +36,11 @@
         "command": "ask_log_result_regex"
     },
     {
+        "caption": "CommandAndMenu: Open ST Directory: User Home",
+        "command": "open_sublime_text_dir",
+        "args": { "folder": "home" }
+    },
+    {
         "caption": "CommandAndMenu: Open ST Directory: Temporary Directory",
         "command": "open_sublime_text_dir",
         "args": { "folder": "bin" }

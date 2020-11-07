@@ -13,6 +13,7 @@ def get_folder_map() -> Dict[str, str]:
         k: os.path.realpath(v)
         for k, v in {
             # from OS
+            "home": os.path.expanduser("~"),
             "temp_dir": tempfile.gettempdir(),
             # from ST itself
             "bin": os.path.dirname(sublime.executable_path()),
@@ -36,10 +37,12 @@ def get_folder_path(folder: str) -> str:
 
     if folder not in m:
         print(
+            # fmt: off
             "[{}] Wrong folder parameter: `{}`. Valid values are: `{}`",
             __package__,
             folder,
             ", ".join(m.keys()),
+            # fmt: on
         )
 
         raise ValueError()
