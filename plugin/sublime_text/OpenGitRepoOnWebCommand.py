@@ -29,20 +29,10 @@ class Git:
         self.git_bin = shutil.which(git_bin) or git_bin
         self.encoding = encoding
 
-    def run(self, function: str, *args, auto_lstrip: bool = False, auto_rstrip: bool = True, **kwargs) -> str:
-        """ Run a command with args as arguments. """
+    def run(self, *args: str) -> str:
+        """ Run a git command. """
 
-        def compose_kv(k: str, v: Optional[str] = None) -> str:
-            k = k.lstrip("-")
-
-            if len(k) > 1:
-                pattern = "--{k}" if v is None else "--{k}={v}"
-            else:
-                pattern = "-{k}" if v is None else "-{k} {v}"
-
-            return pattern.format(k=k, v=v)
-
-        cmd_tuple = (self.git_bin, function) + tuple(compose_kv(k, v) for k, v in kwargs.items()) + args
+        cmd_tuple = (self.git_bin,) + args
 
         if os.name == "nt":
             # do not create a window for the process
@@ -68,12 +58,7 @@ class Git:
             cmd_str = " ".join(shlex.quote(part) for part in cmd_tuple)
             raise GitException("`{}` returned code {}: {}".format(cmd_str, ret_code, err))
 
-        if auto_lstrip:
-            out = out.lstrip()
-        if auto_rstrip:
-            out = out.rstrip()
-
-        return out
+        return out.rstrip()
 
     def get_version(self) -> Optional[Tuple[int, int, int]]:
         try:
