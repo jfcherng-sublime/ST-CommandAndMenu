@@ -29,7 +29,7 @@ class Git:
         self.git_bin = shutil.which(git_bin) or git_bin
         self.encoding = encoding
 
-    def run(self, *args: str) -> str:
+    def run(self, *args: str, timeout_s: float = 3) -> str:
         """ Run a git command. """
 
         cmd_tuple = (self.git_bin,) + args
@@ -51,7 +51,7 @@ class Git:
             text=True,
         )
 
-        out, err = process.communicate()
+        out, err = process.communicate(timeout=timeout_s)
         ret_code = process.poll()
 
         if ret_code:
