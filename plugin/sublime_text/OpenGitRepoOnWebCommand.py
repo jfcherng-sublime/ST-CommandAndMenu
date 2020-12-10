@@ -131,24 +131,23 @@ class Git:
         return None
 
 
-def create_git_object_from_view(view: Optional[sublime.View] = None) -> Optional[Git]:
-    if not view:
-        view = sublime.active_window().active_view()
+def create_git_object() -> Optional[Git]:
+    window = sublime.active_window()
+    view = window.active_view()
+    path = (view.file_name() or "") if view else ""
 
-        if not view:
-            return None
+    if not path:
+        path = (window.folders() or [""])[0]
 
-    file_path = view.file_name() or ""
-
-    if not file_path:
+    if not path:
         return None
 
-    return Git(file_path)
+    return Git(path)
 
 
 class OpenGitRepoOnWebCommand(sublime_plugin.WindowCommand):
     def is_enabled(self) -> bool:
-        git = create_git_object_from_view()
+        git = create_git_object()
 
         if not git:
             return False
@@ -156,7 +155,7 @@ class OpenGitRepoOnWebCommand(sublime_plugin.WindowCommand):
         return git.is_in_git_repo(git.repo_path)
 
     def run(self, remote: Optional[str] = None) -> None:  # type: ignore
-        git = create_git_object_from_view()
+        git = create_git_object()
 
         if not git:
             return
