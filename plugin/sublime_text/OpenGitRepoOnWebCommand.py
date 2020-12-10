@@ -107,28 +107,29 @@ class Git:
 
     @staticmethod
     def get_url_from_remote_uri(uri: str) -> Optional[str]:
-        def strip_dot_git(s: str) -> str:
-            return s[:-4] if s.lower().endswith(".git") else s
+        def strip_dot_git(url: str) -> str:
+            """ Remove the trailing `.git`. This will save us from a HTTP 301 redirection. """
 
-        uri_lower = uri.lower()
+            return re.sub(r"\.git$", "", url, re.IGNORECASE)
+
+        url = None
 
         # SSH (unsupported)
-        if uri_lower.startswith("ssh://"):
-            return None
+        if re.search(r"^ssh://", uri, re.IGNORECASE):
+            url = None
 
         # HTTP
-        if uri_lower.startswith("http://") or uri_lower.startswith("https://"):
-            return strip_dot_git(uri)
+        if re.search(r"^https?://", uri, re.IGNORECASE):
+            url = uri
 
         # common providers
-        if uri_lower.startswith("git@"):
-            parts = uri.split(":")
+        if re.search(r"git@", uri, re.IGNORECASE):
+            parts = uri[4:].split(":")  # "4:" removes "git@"
             host = ":".join(parts[:-1])
             path = parts[-1]
+            url = "https://{}/{}".format(host, path)
 
-            return strip_dot_git("https://{}/{}".format(host, path))
-
-        return None
+        return strip_dot_git(url) if url else None
 
 
 def create_git_object() -> Optional[Git]:
