@@ -98,39 +98,32 @@
                         "caption": "-"
                     },
                     {
-                        "caption": "all",
-                        "command": "ask_log_all"
-                    },
-                    {
-                        "caption": "-"
-                    },
-                    {
                         "caption": "log_build_systems",
-                        "command": "ask_log_build_systems"
+                        "command": "toggle_log_build_systems"
                     },
                     {
                         "caption": "log_commands",
-                        "command": "ask_log_commands"
+                        "command": "toggle_log_commands"
                     },
                     {
                         "caption": "log_control_tree",
-                        "command": "ask_log_control_tree"
+                        "command": "toggle_log_control_tree"
                     },
                     {
                         "caption": "log_fps",
-                        "command": "ask_log_fps"
+                        "command": "toggle_log_fps"
                     },
                     {
                         "caption": "log_indexing",
-                        "command": "ask_log_indexing"
+                        "command": "toggle_log_indexing"
                     },
                     {
                         "caption": "log_input",
-                        "command": "ask_log_input"
+                        "command": "toggle_log_input"
                     },
                     {
                         "caption": "log_result_regex",
-                        "command": "ask_log_result_regex"
+                        "command": "toggle_log_result_regex"
                     },
                     {
                         "caption": "-"

@@ -4,36 +4,32 @@
         "command": "open_git_repo_on_web"
     },
     {
-        "caption": "CommandAndMenu: (De-)Activate All Console Loggings",
-        "command": "ask_log_all"
+        "caption": "CommandAndMenu: Toggle log_build_systems()",
+        "command": "toggle_log_build_systems"
     },
     {
-        "caption": "CommandAndMenu: (De-)Activate log_build_systems()",
-        "command": "ask_log_build_systems"
+        "caption": "CommandAndMenu: Toggle log_commands()",
+        "command": "toggle_log_commands"
     },
     {
-        "caption": "CommandAndMenu: (De-)Activate log_commands()",
-        "command": "ask_log_commands"
+        "caption": "CommandAndMenu: Toggle log_control_tree()",
+        "command": "toggle_log_control_tree"
     },
     {
-        "caption": "CommandAndMenu: (De-)Activate log_control_tree()",
-        "command": "ask_log_control_tree"
+        "caption": "CommandAndMenu: Toggle log_fps()",
+        "command": "toggle_log_fps"
     },
     {
-        "caption": "CommandAndMenu: (De-)Activate log_fps()",
-        "command": "ask_log_fps"
+        "caption": "CommandAndMenu: Toggle log_indexing()",
+        "command": "toggle_log_indexing"
     },
     {
-        "caption": "CommandAndMenu: (De-)Activate log_indexing()",
-        "command": "ask_log_indexing"
+        "caption": "CommandAndMenu: Toggle log_input()",
+        "command": "toggle_log_input"
     },
     {
-        "caption": "CommandAndMenu: (De-)Activate log_input()",
-        "command": "ask_log_input"
-    },
-    {
-        "caption": "CommandAndMenu: (De-)Activate log_result_regex()",
-        "command": "ask_log_result_regex"
+        "caption": "CommandAndMenu: Toggle log_result_regex()",
+        "command": "toggle_log_result_regex"
     },
     {
         "caption": "CommandAndMenu: Open ST Directory: User Home",
