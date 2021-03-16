@@ -6,8 +6,6 @@ import sublime_plugin
 ST_METHODS = set(dir(sublime))
 ST_VERSION = int(sublime.version())
 
-ST_SUPPORT_GET_LOGGING_STATUS = ST_VERSION >= 4099
-
 
 class AbstractToggleConsoleLoggingCommand(sublime_plugin.ApplicationCommand, metaclass=ABCMeta):
     @property
@@ -24,58 +22,56 @@ class AbstractToggleConsoleLoggingCommand(sublime_plugin.ApplicationCommand, met
         return getattr(sublime, f"get_{self.logging_method_name}")
 
     def is_checked(self) -> bool:
-        return self.get_logging_method()
+        return (self.get_logging_method)()
 
     def is_enabled(self) -> bool:
-        return ST_SUPPORT_GET_LOGGING_STATUS and (self.logging_method_name in ST_METHODS)
+        return self.logging_method_name in ST_METHODS
 
     def is_visible(self) -> bool:
         return self.is_enabled()
 
     def run(self, enable: Optional[bool] = None) -> None:
-        if enable is None:
-            self.logging_method()
-        else:
-            self.logging_method(enable)
+        args = [] if enable is None else [enable]
+        self.logging_method(*args)
 
 
 class ToggleLogBuildSystemsCommand(AbstractToggleConsoleLoggingCommand):
-    """ Toggle for activating sublime.log_build_systems() """
+    """ Toggle `sublime.log_build_systems()` """
 
     ...
 
 
 class ToggleLogCommandsCommand(AbstractToggleConsoleLoggingCommand):
-    """ Toggle for activating sublime.log_commands() """
+    """ Toggle `sublime.log_commands()` """
 
     ...
 
 
 class ToggleLogControlTreeCommand(AbstractToggleConsoleLoggingCommand):
-    """ Toggle for activating sublime.log_control_tree() """
+    """ Toggle `sublime.log_control_tree()` """
 
     ...
 
 
 class ToggleLogFpsCommand(AbstractToggleConsoleLoggingCommand):
-    """ Toggle for activating sublime.log_fps() """
+    """ Toggle `sublime.log_fps()` """
 
     ...
 
 
 class ToggleLogIndexingCommand(AbstractToggleConsoleLoggingCommand):
-    """ Toggle for activating sublime.log_indexing() """
+    """ Toggle `sublime.log_indexing()` """
 
     ...
 
 
 class ToggleLogInputCommand(AbstractToggleConsoleLoggingCommand):
-    """ Toggle for activating sublime.log_input() """
+    """ Toggle `sublime.log_input()` """
 
     ...
 
 
 class ToggleLogResultRegexCommand(AbstractToggleConsoleLoggingCommand):
-    """ Toggle for activating sublime.log_result_regex() """
+    """ Toggle `sublime.log_result_regex()` """
 
     ...
