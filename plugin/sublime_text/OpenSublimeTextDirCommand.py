@@ -6,6 +6,8 @@ import tempfile
 from functools import lru_cache
 from typing import Dict
 
+PACKAGE_NAME = __package__.split('.')[0]
+
 
 @lru_cache
 def get_folder_map() -> Dict[str, str]:
@@ -31,31 +33,12 @@ def get_folder_map() -> Dict[str, str]:
     }
 
 
-@lru_cache
-def get_folder_path(folder: str) -> str:
-    m = get_folder_map()
-
-    if folder not in m:
-        print(
-            # fmt: off
-            "[{}] Wrong folder parameter: `{}`. Valid values are: `{}`",
-            __package__,
-            folder,
-            ", ".join(m.keys()),
-            # fmt: on
-        )
-
-        raise ValueError()
-
-    return m[folder]
-
-
 class OpenSublimeTextDirCommand(sublime_plugin.ApplicationCommand):
     def run(self, folder: str) -> None:  # type: ignore
-        path = get_folder_path(folder)
+        path = sublime.expand_variables(folder, get_folder_map())
 
         if not os.path.isdir(path):
-            sublime.error_message("Directory not found: `{}`".format(path))
+            sublime.error_message(f"[{PACKAGE_NAME}] Directory not found: `{path}`")
 
             return
 
