@@ -36,42 +36,42 @@ class AbstractToggleConsoleLoggingCommand(sublime_plugin.ApplicationCommand, met
 
 
 class ToggleLogBuildSystemsCommand(AbstractToggleConsoleLoggingCommand):
-    """ Toggle `sublime.log_build_systems()` """
+    """Toggle `sublime.log_build_systems()`"""
 
     ...
 
 
 class ToggleLogCommandsCommand(AbstractToggleConsoleLoggingCommand):
-    """ Toggle `sublime.log_commands()` """
+    """Toggle `sublime.log_commands()`"""
 
     ...
 
 
 class ToggleLogControlTreeCommand(AbstractToggleConsoleLoggingCommand):
-    """ Toggle `sublime.log_control_tree()` """
+    """Toggle `sublime.log_control_tree()`"""
 
     ...
 
 
 class ToggleLogFpsCommand(AbstractToggleConsoleLoggingCommand):
-    """ Toggle `sublime.log_fps()` """
+    """Toggle `sublime.log_fps()`"""
 
     ...
 
 
 class ToggleLogIndexingCommand(AbstractToggleConsoleLoggingCommand):
-    """ Toggle `sublime.log_indexing()` """
+    """Toggle `sublime.log_indexing()`"""
 
     ...
 
 
 class ToggleLogInputCommand(AbstractToggleConsoleLoggingCommand):
-    """ Toggle `sublime.log_input()` """
+    """Toggle `sublime.log_input()`"""
 
     ...
 
 
 class ToggleLogResultRegexCommand(AbstractToggleConsoleLoggingCommand):
-    """ Toggle `sublime.log_result_regex()` """
+    """Toggle `sublime.log_result_regex()`"""
 
     ...

@@ -10,17 +10,17 @@ from typing import Optional, Tuple
 
 
 class GitException(Exception):
-    """ Exception raised when something went wrong for git """
+    """Exception raised when something went wrong for git"""
 
     def __init__(self, message: str) -> None:
         super().__init__(message)
 
 
 class Git:
-    """ Git command wrapper """
+    """Git command wrapper"""
 
     def __init__(self, repo_path: str, git_bin: str = "git", encoding: str = "utf-8") -> None:
-        """ Init a Git wrapper with an instance """
+        """Init a Git wrapper with an instance"""
 
         if os.path.isfile(repo_path):
             repo_path = os.path.dirname(repo_path)
@@ -30,7 +30,7 @@ class Git:
         self.encoding = encoding
 
     def run(self, *args: str, timeout_s: float = 3) -> str:
-        """ Run a git command. """
+        """Run a git command."""
 
         cmd_tuple = (self.git_bin,) + args
 
@@ -108,7 +108,7 @@ class Git:
     @staticmethod
     def get_url_from_remote_uri(uri: str) -> Optional[str]:
         def strip_dot_git(url: str) -> str:
-            """ Remove the trailing `.git`. This will save us from a HTTP 301 redirection. """
+            """Remove the trailing `.git`. This will save us from a HTTP 301 redirection."""
 
             return re.sub(r"\.git$", "", url, re.IGNORECASE)
 

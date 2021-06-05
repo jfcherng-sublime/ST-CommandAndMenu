@@ -1,8 +1,8 @@
 def set_up() -> None:
-    """ plugin_loaded """
+    """plugin_loaded"""
     ...
 
 
 def tear_down() -> None:
-    """ plugin_unloaded """
+    """plugin_unloaded"""
     ...

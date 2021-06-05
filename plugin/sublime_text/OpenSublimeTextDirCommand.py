@@ -6,7 +6,7 @@ import tempfile
 from functools import lru_cache
 from typing import Dict
 
-PACKAGE_NAME = __package__.split('.')[0]
+PACKAGE_NAME = __package__.split(".")[0]
 
 
 @lru_cache
