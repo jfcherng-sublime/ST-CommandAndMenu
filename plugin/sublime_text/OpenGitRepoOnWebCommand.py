@@ -39,7 +39,7 @@ class Git:
             startupinfo = subprocess.STARTUPINFO()  # type: ignore
             startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW  # type: ignore
         else:
-            startupinfo = None  # type: ignore
+            startupinfo = None
 
         process = subprocess.Popen(
             cmd_tuple,
@@ -97,8 +97,8 @@ class Git:
             visited.add(path)
 
             path_test = os.path.join(path, ".git")
-            # git dir or worktree
-            if os.path.isdir(path_test) or os.path.isfile(path_test):
+            # git dir or worktree, which has a .git file in it
+            if os.path.exists(path_test):
                 return True
 
             path = os.path.dirname(path)
@@ -140,22 +140,16 @@ def create_git_object() -> Optional[Git]:
     if not path:
         path = (window.folders() or [""])[0]
 
-    if not path:
-        return None
-
-    return Git(path)
+    return Git(path) if path else None
 
 
 class OpenGitRepoOnWebCommand(sublime_plugin.WindowCommand):
     def is_enabled(self) -> bool:
         git = create_git_object()
 
-        if not git:
-            return False
+        return git.is_in_git_repo(git.repo_path) if git else False
 
-        return git.is_in_git_repo(git.repo_path)
-
-    def run(self, remote: Optional[str] = None) -> None:  # type: ignore
+    def run(self, remote: Optional[str] = None) -> None:
         git = create_git_object()
 
         if not git:
