@@ -1,93 +1,93 @@
 [
     {
-        "caption": "CommandAndMenu: Open Git Repo on Web",
+        "caption": "CAM: Open Git Repo on Web",
         "command": "open_git_repo_on_web"
     },
     {
-        "caption": "CommandAndMenu: Toggle log_build_systems()",
+        "caption": "CAM: Toggle log_build_systems()",
         "command": "toggle_log_build_systems"
     },
     {
-        "caption": "CommandAndMenu: Toggle log_commands()",
+        "caption": "CAM: Toggle log_commands()",
         "command": "toggle_log_commands"
     },
     {
-        "caption": "CommandAndMenu: Toggle log_control_tree()",
+        "caption": "CAM: Toggle log_control_tree()",
         "command": "toggle_log_control_tree"
     },
     {
-        "caption": "CommandAndMenu: Toggle log_fps()",
+        "caption": "CAM: Toggle log_fps()",
         "command": "toggle_log_fps"
     },
     {
-        "caption": "CommandAndMenu: Toggle log_indexing()",
+        "caption": "CAM: Toggle log_indexing()",
         "command": "toggle_log_indexing"
     },
     {
-        "caption": "CommandAndMenu: Toggle log_input()",
+        "caption": "CAM: Toggle log_input()",
         "command": "toggle_log_input"
     },
     {
-        "caption": "CommandAndMenu: Toggle log_result_regex()",
+        "caption": "CAM: Toggle log_result_regex()",
         "command": "toggle_log_result_regex"
     },
     {
-        "caption": "CommandAndMenu: Open ST Directory: User Home",
+        "caption": "CAM: Open ST Directory: User Home",
         "command": "open_sublime_text_dir",
         "args": { "folder": "home" }
     },
     {
-        "caption": "CommandAndMenu: Open ST Directory: Temporary Directory",
+        "caption": "CAM: Open ST Directory: Temporary Directory",
         "command": "open_sublime_text_dir",
         "args": { "folder": "bin" }
     },
     {
-        "caption": "CommandAndMenu: Open ST Directory: Bin",
+        "caption": "CAM: Open ST Directory: Bin",
         "command": "open_sublime_text_dir",
         "args": { "folder": "bin" }
     },
     {
-        "caption": "CommandAndMenu: Open ST Directory: Cache",
+        "caption": "CAM: Open ST Directory: Cache",
         "command": "open_sublime_text_dir",
         "args": { "folder": "cache" }
     },
     {
-        "caption": "CommandAndMenu: Open ST Directory: Data",
+        "caption": "CAM: Open ST Directory: Data",
         "command": "open_sublime_text_dir",
         "args": { "folder": "data" }
     },
     {
-        "caption": "CommandAndMenu: Open ST Directory: Index",
+        "caption": "CAM: Open ST Directory: Index",
         "command": "open_sublime_text_dir",
         "args": { "folder": "index" }
     },
     {
-        "caption": "CommandAndMenu: Open ST Directory: Installed Packages",
+        "caption": "CAM: Open ST Directory: Installed Packages",
         "command": "open_sublime_text_dir",
         "args": { "folder": "installed_packages" }
     },
     {
-        "caption": "CommandAndMenu: Open ST Directory: Lib",
+        "caption": "CAM: Open ST Directory: Lib",
         "command": "open_sublime_text_dir",
         "args": { "folder": "lib" }
     },
     {
-        "caption": "CommandAndMenu: Open ST Directory: Local",
+        "caption": "CAM: Open ST Directory: Local",
         "command": "open_sublime_text_dir",
         "args": { "folder": "local" }
     },
     {
-        "caption": "CommandAndMenu: Open ST Directory: Log",
+        "caption": "CAM: Open ST Directory: Log",
         "command": "open_sublime_text_dir",
         "args": { "folder": "log" }
     },
     {
-        "caption": "CommandAndMenu: Open ST Directory: Packages",
+        "caption": "CAM: Open ST Directory: Packages",
         "command": "open_sublime_text_dir",
         "args": { "folder": "packages" }
     },
     {
-        "caption": "CommandAndMenu: Open ST Directory: Package Storage (LSP)",
+        "caption": "CAM: Open ST Directory: Package Storage (LSP)",
         "command": "open_sublime_text_dir",
         "args": { "folder": "package_storage" }
     }
