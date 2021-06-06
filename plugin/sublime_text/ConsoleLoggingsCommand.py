@@ -18,11 +18,11 @@ class AbstractToggleConsoleLoggingCommand(sublime_plugin.ApplicationCommand, met
         return getattr(sublime, self.logging_method_name)
 
     @property
-    def get_logging_method(self) -> Callable[[], bool]:
+    def logging_status_method(self) -> Callable[[], bool]:
         return getattr(sublime, f"get_{self.logging_method_name}")
 
     def is_checked(self) -> bool:
-        return (self.get_logging_method)()
+        return (self.logging_status_method)()
 
     def is_enabled(self) -> bool:
         return self.logging_method_name in ST_METHODS
