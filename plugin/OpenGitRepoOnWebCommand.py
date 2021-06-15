@@ -1,12 +1,11 @@
-import os
+from pathlib import Path
+from typing import Optional, Tuple
 import re
 import shlex
 import shutil
 import sublime
 import sublime_plugin
 import subprocess
-
-from typing import Optional, Tuple
 
 
 class GitException(Exception):
@@ -22,10 +21,12 @@ class Git:
     def __init__(self, repo_path: str, git_bin: str = "git", encoding: str = "utf-8") -> None:
         """Init a Git wrapper with an instance"""
 
-        if os.path.isfile(repo_path):
-            repo_path = os.path.dirname(repo_path)
+        repo_Path = Path(repo_path)
 
-        self.repo_path = repo_path
+        if repo_Path.is_file():
+            repo_Path = repo_Path.parent
+
+        self.repo_path = repo_Path
         self.git_bin = shutil.which(git_bin) or git_bin
         self.encoding = encoding
 
@@ -34,12 +35,11 @@ class Git:
 
         cmd_tuple = (self.git_bin,) + args
 
-        if os.name == "nt":
+        startupinfo = None  # type: Optional[subprocess.STARTUPINFO]
+        if sublime.platform() == "windows":
             # do not create a window for the process
-            startupinfo = subprocess.STARTUPINFO()  # type: ignore
-            startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW  # type: ignore
-        else:
-            startupinfo = None
+            startupinfo = subprocess.STARTUPINFO()
+            startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 
         process = subprocess.Popen(
             cmd_tuple,
@@ -56,7 +56,7 @@ class Git:
 
         if ret_code:
             cmd_str = " ".join(shlex.quote(part) for part in cmd_tuple)
-            raise GitException("`{}` returned code {}: {}".format(cmd_str, ret_code, err))
+            raise GitException(f"`{cmd_str}` returned code {ret_code}: {err}")
 
         return out.rstrip()
 
@@ -84,34 +84,20 @@ class Git:
             return None
 
     @staticmethod
-    def is_in_git_repo(path: str) -> bool:
-        visited = set()
+    def is_in_git_repo(path: Path) -> bool:
+        path_prev, path = None, path.resolve()
 
-        if path:
-            path = os.path.realpath(path)
-
-        while True:
-            if not path or path in visited:
-                break
-
-            visited.add(path)
-
-            path_test = os.path.join(path, ".git")
+        while path != path_prev:
             # git dir or worktree, which has a .git file in it
-            if os.path.exists(path_test):
+            if (path / ".git").exists():
                 return True
 
-            path = os.path.dirname(path)
+            path_prev, path = path, path.parent
 
         return False
 
     @staticmethod
     def get_url_from_remote_uri(uri: str) -> Optional[str]:
-        def strip_dot_git(url: str) -> str:
-            """Remove the trailing `.git`. This will save us from a HTTP 301 redirection."""
-
-            return re.sub(r"\.git$", "", url, re.IGNORECASE)
-
         url = None
 
         # SSH (unsupported)
@@ -127,9 +113,9 @@ class Git:
             parts = uri[4:].split(":")  # "4:" removes "git@"
             host = ":".join(parts[:-1])
             path = parts[-1]
-            url = "https://{}/{}".format(host, path)
+            url = f"https://{host}/{path}"
 
-        return strip_dot_git(url) if url else None
+        return re.sub(r"\.git$", "", url, re.IGNORECASE) if url else None
 
 
 def create_git_object() -> Optional[Git]:
@@ -151,7 +137,6 @@ class OpenGitRepoOnWebCommand(sublime_plugin.WindowCommand):
 
     def run(self, remote: Optional[str] = None) -> None:
         git = create_git_object()
-
         if not git:
             return
 
