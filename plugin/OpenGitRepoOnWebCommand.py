@@ -35,11 +35,12 @@ class Git:
 
         cmd_tuple = (self.git_bin,) + args
 
-        startupinfo = None  # type: Optional[subprocess.STARTUPINFO]
         if sublime.platform() == "windows":
             # do not create a window for the process
-            startupinfo = subprocess.STARTUPINFO()
-            startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+            startupinfo = subprocess.STARTUPINFO()  # type: ignore
+            startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW  # type: ignore
+        else:
+            startupinfo = None  # type: ignore
 
         process = subprocess.Popen(
             cmd_tuple,
