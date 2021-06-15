@@ -4,7 +4,6 @@ import sublime
 import sublime_plugin
 
 ST_METHODS = set(dir(sublime))
-ST_VERSION = int(sublime.version())
 
 
 class AbstractToggleConsoleLoggingCommand(sublime_plugin.ApplicationCommand, metaclass=ABCMeta):
@@ -21,14 +20,17 @@ class AbstractToggleConsoleLoggingCommand(sublime_plugin.ApplicationCommand, met
     def logging_status_method(self) -> Callable[[], bool]:
         return getattr(sublime, f"get_{self.logging_method_name}")
 
+    def description(self) -> str:
+        # "toogle_log_fps" => "Toggle log fps"
+        return self.name().replace("_", " ").capitalize()
+
     def is_checked(self) -> bool:
         return (self.logging_status_method)()
 
     def is_enabled(self) -> bool:
         return self.logging_method_name in ST_METHODS
 
-    def is_visible(self) -> bool:
-        return self.is_enabled()
+    is_visible = is_enabled
 
     def run(self, enable: Optional[bool] = None) -> None:
         args = [] if enable is None else [enable]
