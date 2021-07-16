@@ -6,7 +6,7 @@ import sublime
 import sublime_plugin
 import tempfile
 
-PACKAGE_NAME = __package__.split(".")[0]
+PACKAGE_NAME = __package__.partition(".")[0]
 
 
 @lru_cache

@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Union
 import re
 import shlex
 import shutil
@@ -18,15 +18,19 @@ class GitException(Exception):
 class Git:
     """Git command wrapper"""
 
-    def __init__(self, repo_path: str, git_bin: str = "git", encoding: str = "utf-8") -> None:
+    def __init__(
+        self,
+        repo_path: Union[str, Path],
+        git_bin: str = "git",
+        encoding: str = "utf-8",
+    ) -> None:
         """Init a Git wrapper with an instance"""
 
-        repo_Path = Path(repo_path)
+        # always use folder as repo path
+        if (path := Path(repo_path)).is_file():
+            path = path.parent
 
-        if repo_Path.is_file():
-            repo_Path = repo_Path.parent
-
-        self.repo_path = repo_Path
+        self.repo_path = path
         self.git_bin = shutil.which(git_bin) or git_bin
         self.encoding = encoding
 
@@ -53,7 +57,7 @@ class Git:
         )
 
         out, err = process.communicate(timeout=timeout_s)
-        ret_code = process.poll()
+        ret_code = process.poll() or 0
 
         if ret_code:
             cmd_str = " ".join(shlex.quote(part) for part in cmd_tuple)
@@ -64,8 +68,7 @@ class Git:
     def get_version(self) -> Optional[Tuple[int, int, int]]:
         try:
             m = re.search(r"(\d+)\.(\d+)\.(\d+)", self.run("version"))
-
-            return tuple(map(lambda x: int(x), m.groups())) if m else None  # type: ignore
+            return tuple(map(int, m.groups())) if m else None  # type: ignore
         except GitException:
             return None
 
@@ -85,16 +88,13 @@ class Git:
             return None
 
     @staticmethod
-    def is_in_git_repo(path: Path) -> bool:
-        path_prev, path = None, path.resolve()
-
+    def is_in_git_repo(path: Union[str, Path]) -> bool:
+        path_prev, path = None, Path(path).resolve()
         while path != path_prev:
             # git dir or worktree, which has a .git file in it
             if (path / ".git").exists():
                 return True
-
             path_prev, path = path, path.parent
-
         return False
 
     @staticmethod
@@ -119,7 +119,7 @@ class Git:
         return re.sub(r"\.git$", "", url, re.IGNORECASE) if url else None
 
 
-def create_git_object() -> Optional[Git]:
+def make_git() -> Optional[Git]:
     window = sublime.active_window()
     view = window.active_view()
     path = (view.file_name() or "") if view else ""
@@ -132,17 +132,13 @@ def create_git_object() -> Optional[Git]:
 
 class OpenGitRepoOnWebCommand(sublime_plugin.WindowCommand):
     def is_enabled(self) -> bool:
-        git = create_git_object()
-
-        return git.is_in_git_repo(git.repo_path) if git else False
+        return git.is_in_git_repo(git.repo_path) if (git := make_git()) else False
 
     def run(self, remote: Optional[str] = None) -> None:
-        git = create_git_object()
-        if not git:
+        if not (git := make_git()):
             return
 
-        repo_url = git.get_remote_web_url(remote=remote)
-        if not repo_url:
+        if not (repo_url := git.get_remote_web_url(remote=remote)):
             return sublime.error_message("Can't determine repo web URL...")
 
         sublime.run_command("open_url", {"url": repo_url})

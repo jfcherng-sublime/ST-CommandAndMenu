@@ -1,3 +1,6 @@
+from .commands import *  # noqa: F401, F403
+
+
 def set_up() -> None:
     """plugin_loaded"""
     ...

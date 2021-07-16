@@ -1,10 +1,6 @@
+from .plugin import *  # noqa: F401, F403
 from .plugin import set_up
 from .plugin import tear_down
-
-# main plugin classes
-from .plugin.ConsoleLoggingsCommand import *
-from .plugin.OpenGitRepoOnWebCommand import *
-from .plugin.OpenSublimeTextDirCommand import *
 
 
 def plugin_loaded() -> None:
