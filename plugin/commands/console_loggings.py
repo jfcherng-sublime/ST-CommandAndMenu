@@ -33,7 +33,7 @@ class AbstractToggleConsoleLoggingCommand(sublime_plugin.ApplicationCommand, met
     is_visible = is_enabled
 
     def run(self, enable: Optional[bool] = None) -> None:
-        args = [] if enable is None else [enable]
+        args = tuple() if enable is None else (enable,)
         self.logging_method(*args)
 
 

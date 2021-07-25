@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Optional, Tuple, Union
+from typing import Any, Callable, Optional, Tuple, Union
 import re
 import shlex
 import shutil
@@ -23,18 +23,22 @@ class Git:
         repo_path: Union[str, Path],
         git_bin: str = "git",
         encoding: str = "utf-8",
+        shell: bool = False,
+        timeout_s: float = 3,
     ) -> None:
         """Init a Git wrapper with an instance"""
 
         # always use folder as repo path
-        if (path := Path(repo_path)).is_file():
+        if (path := Path(repo_path).resolve()).is_file():
             path = path.parent
 
         self.repo_path = path
         self.git_bin = shutil.which(git_bin) or git_bin
         self.encoding = encoding
+        self.shell = shell
+        self.timeout_s = timeout_s
 
-    def run(self, *args: str, timeout_s: float = 3) -> str:
+    def run(self, *args: str) -> str:
         """Run a git command."""
 
         cmd_tuple = (self.git_bin,) + args
@@ -50,17 +54,18 @@ class Git:
             cmd_tuple,
             cwd=self.repo_path,
             encoding=self.encoding,
+            shell=self.shell,
             startupinfo=startupinfo,
             stderr=subprocess.PIPE,
             stdout=subprocess.PIPE,
             text=True,
         )
 
-        out, err = process.communicate(timeout=timeout_s)
+        out, err = process.communicate(timeout=self.timeout_s)
         ret_code = process.poll() or 0
 
         if ret_code:
-            cmd_str = " ".join(shlex.quote(part) for part in cmd_tuple)
+            cmd_str = " ".join(map(shlex.quote, cmd_tuple))
             raise GitException(f"`{cmd_str}` returned code {ret_code}: {err}")
 
         return out.rstrip()
@@ -78,7 +83,7 @@ class Git:
             if not remote:
                 # `upstream` will be something like "refs/remotes/origin/master"
                 upstream = self.run("rev-parse", "--symbolic-full-name", "@{upstream}")
-                remote = re.sub(r"^refs/remotes/", "", upstream).split("/", 2)[0]
+                remote = re.sub(r"^refs/remotes/", "", upstream).partition("/")[0]
 
             remote_uri = self.run("remote", "get-url", remote)
             remote_url = self.get_url_from_remote_uri(remote_uri)
@@ -99,43 +104,57 @@ class Git:
 
     @staticmethod
     def get_url_from_remote_uri(uri: str) -> Optional[str]:
-        url = None
+        url: Optional[str] = None
+        re_flags = re.IGNORECASE | re.MULTILINE
 
         # SSH (unsupported)
-        if re.search(r"^ssh://", uri, re.IGNORECASE):
+        if re.search(r"^ssh://", uri, re_flags):
             url = None
 
         # HTTP
-        if re.search(r"^https?://", uri, re.IGNORECASE):
+        if re.search(r"^https?://", uri, re_flags):
             url = uri
 
         # common providers
-        if re.search(r"git@", uri, re.IGNORECASE):
+        if re.search(r"^git@", uri, re_flags):
             parts = uri[4:].split(":")  # "4:" removes "git@"
             host = ":".join(parts[:-1])
             path = parts[-1]
             url = f"https://{host}/{path}"
 
-        return re.sub(r"\.git$", "", url, re.IGNORECASE) if url else None
+        return re.sub(r"\.git$", "", url, re_flags) if url else None
 
 
-def make_git() -> Optional[Git]:
-    window = sublime.active_window()
-    view = window.active_view()
-    path = (view.file_name() or "") if view else ""
+def get_dir_for_git(view: sublime.View) -> Optional[str]:
+    if filename := view.file_name():
+        return str(Path(filename).parent)
 
-    if not path:
-        path = (window.folders() or [""])[0]
+    if not (window := view.window()):
+        return None
 
-    return Git(path) if path else None
+    return next(iter(window.folders()), None)
+
+
+def guarantee_git_dir(failed_return: Optional[Any] = None) -> Callable:
+    def decorator(func: Callable) -> Callable:
+        def wrapped(self: sublime_plugin.WindowCommand, *args: Any, **kwargs: Any) -> Any:
+            if not ((view := self.window.active_view()) and (git_dir := get_dir_for_git(view))):
+                return failed_return
+            return func(self, git_dir, *args, **kwargs)
+
+        return wrapped
+
+    return decorator
 
 
 class OpenGitRepoOnWebCommand(sublime_plugin.WindowCommand):
-    def is_enabled(self) -> bool:
-        return git.is_in_git_repo(git.repo_path) if (git := make_git()) else False
+    @guarantee_git_dir(failed_return=False)
+    def is_enabled(self, git_dir: str) -> bool:
+        return Git.is_in_git_repo(git_dir)
 
-    def run(self, remote: Optional[str] = None) -> None:
-        if not (git := make_git()):
+    @guarantee_git_dir()
+    def run(self, git_dir: str, remote: Optional[str] = None) -> None:
+        if not (git := Git(git_dir)):
             return
 
         if not (repo_url := git.get_remote_web_url(remote=remote)):
