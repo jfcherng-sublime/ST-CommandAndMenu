@@ -1,5 +1,9 @@
 [
     {
+        "caption": "CAM: Clear Console",
+        "command": "clear_console"
+    },
+    {
         "caption": "CAM: Open Git Repo on Web",
         "command": "open_git_repo_on_web"
     },

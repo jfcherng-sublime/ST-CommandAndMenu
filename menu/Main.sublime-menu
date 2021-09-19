@@ -23,12 +23,16 @@
                     {
                         "caption": "User Home",
                         "command": "open_sublime_text_dir",
-                        "args": { "folder": "${home}" }
+                        "args": {
+                            "folder": "${home}"
+                        }
                     },
                     {
                         "caption": "Temporary Directory",
                         "command": "open_sublime_text_dir",
-                        "args": { "folder": "${temp_dir}" }
+                        "args": {
+                            "folder": "${temp_dir}"
+                        }
                     },
                     {
                         "caption": "-"
@@ -36,47 +40,65 @@
                     {
                         "caption": "Bin",
                         "command": "open_sublime_text_dir",
-                        "args": { "folder": "${bin}" }
+                        "args": {
+                            "folder": "${bin}"
+                        }
                     },
                     {
                         "caption": "Cache",
                         "command": "open_sublime_text_dir",
-                        "args": { "folder": "${cache}" }
+                        "args": {
+                            "folder": "${cache}"
+                        }
                     },
                     {
                         "caption": "Data",
                         "command": "open_sublime_text_dir",
-                        "args": { "folder": "${data}" }
+                        "args": {
+                            "folder": "${data}"
+                        }
                     },
                     {
                         "caption": "Index",
                         "command": "open_sublime_text_dir",
-                        "args": { "folder": "${index}" }
+                        "args": {
+                            "folder": "${index}"
+                        }
                     },
                     {
                         "caption": "Installed Packages",
                         "command": "open_sublime_text_dir",
-                        "args": { "folder": "${installed_packages}" }
+                        "args": {
+                            "folder": "${installed_packages}"
+                        }
                     },
                     {
                         "caption": "Lib",
                         "command": "open_sublime_text_dir",
-                        "args": { "folder": "${lib}" }
+                        "args": {
+                            "folder": "${lib}"
+                        }
                     },
                     {
                         "caption": "Local",
                         "command": "open_sublime_text_dir",
-                        "args": { "folder": "${local}" }
+                        "args": {
+                            "folder": "${local}"
+                        }
                     },
                     {
                         "caption": "Log",
                         "command": "open_sublime_text_dir",
-                        "args": { "folder": "${log}" }
+                        "args": {
+                            "folder": "${log}"
+                        }
                     },
                     {
                         "caption": "Packages",
                         "command": "open_sublime_text_dir",
-                        "args": { "folder": "${packages}" }
+                        "args": {
+                            "folder": "${packages}"
+                        }
                     },
                     {
                         "caption": "-"
@@ -84,7 +106,9 @@
                     {
                         "caption": "Package Storage (LSP)",
                         "command": "open_sublime_text_dir",
-                        "args": { "folder": "${package_storage}" }
+                        "args": {
+                            "folder": "${package_storage}"
+                        }
                     },
                     {
                         "caption": "-"
@@ -129,6 +153,13 @@
                         "caption": "-"
                     }
                 ]
+            },
+            {
+                "caption": "-"
+            },
+            {
+                "caption": "Clear Console",
+                "command": "clear_console"
             },
             {
                 "caption": "-"
