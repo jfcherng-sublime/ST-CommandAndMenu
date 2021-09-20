@@ -6,6 +6,9 @@ import shutil
 import sublime
 import sublime_plugin
 import subprocess
+import threading
+
+PathLike = Union[str, Path]
 
 
 class GitException(Exception):
@@ -20,7 +23,7 @@ class Git:
 
     def __init__(
         self,
-        repo_path: Union[str, Path],
+        repo_path: PathLike,
         git_bin: str = "git",
         encoding: str = "utf-8",
         shell: bool = False,
@@ -93,7 +96,7 @@ class Git:
             return None
 
     @staticmethod
-    def is_in_git_repo(path: Union[str, Path]) -> bool:
+    def is_in_git_repo(path: PathLike) -> bool:
         path_prev, path = None, Path(path).resolve()
         while path != path_prev:
             # git dir or worktree, which has a .git file in it
@@ -154,6 +157,11 @@ class OpenGitRepoOnWebCommand(sublime_plugin.WindowCommand):
 
     @guarantee_git_dir()
     def run(self, git_dir: str, remote: Optional[str] = None) -> None:
+        t = threading.Thread(target=self._worker, args=(git_dir, remote))
+        t.start()
+
+    @staticmethod
+    def _worker(git_dir: str, remote: Optional[str] = None) -> None:
         if not (git := Git(git_dir)):
             return
 
