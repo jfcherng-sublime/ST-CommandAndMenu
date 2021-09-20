@@ -104,7 +104,7 @@
                         "caption": "-"
                     },
                     {
-                        "caption": "Package Storage (LSP)",
+                        "caption": "Package Storage",
                         "command": "open_sublime_text_dir",
                         "args": {
                             "folder": "${package_storage}"
@@ -114,6 +114,13 @@
                         "caption": "-"
                     }
                 ]
+            },
+            {
+                "caption": "-"
+            },
+            {
+                "caption": "Clear Console",
+                "command": "clear_console"
             },
             {
                 "caption": "Console Logging…",
@@ -153,13 +160,6 @@
                         "caption": "-"
                     }
                 ]
-            },
-            {
-                "caption": "-"
-            },
-            {
-                "caption": "Clear Console",
-                "command": "clear_console"
             },
             {
                 "caption": "-"

@@ -91,7 +91,7 @@
         "args": { "folder": "packages" }
     },
     {
-        "caption": "CAM: Open ST Directory: Package Storage (LSP)",
+        "caption": "CAM: Open ST Directory: Package Storage",
         "command": "open_sublime_text_dir",
         "args": { "folder": "package_storage" }
     }
