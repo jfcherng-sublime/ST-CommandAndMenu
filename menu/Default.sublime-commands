@@ -38,61 +38,61 @@
     {
         "caption": "CAM: Open ST Directory: User Home",
         "command": "open_sublime_text_dir",
-        "args": { "folder": "home" }
+        "args": { "folder": "${home}" }
     },
     {
         "caption": "CAM: Open ST Directory: Temporary Directory",
         "command": "open_sublime_text_dir",
-        "args": { "folder": "bin" }
+        "args": { "folder": "${temp_dir}" }
     },
     {
         "caption": "CAM: Open ST Directory: Bin",
         "command": "open_sublime_text_dir",
-        "args": { "folder": "bin" }
+        "args": { "folder": "${bin}" }
     },
     {
         "caption": "CAM: Open ST Directory: Cache",
         "command": "open_sublime_text_dir",
-        "args": { "folder": "cache" }
+        "args": { "folder": "${cache}" }
     },
     {
         "caption": "CAM: Open ST Directory: Data",
         "command": "open_sublime_text_dir",
-        "args": { "folder": "data" }
+        "args": { "folder": "${data}" }
     },
     {
         "caption": "CAM: Open ST Directory: Index",
         "command": "open_sublime_text_dir",
-        "args": { "folder": "index" }
+        "args": { "folder": "${index}" }
     },
     {
         "caption": "CAM: Open ST Directory: Installed Packages",
         "command": "open_sublime_text_dir",
-        "args": { "folder": "installed_packages" }
+        "args": { "folder": "${installed_packages}" }
     },
     {
         "caption": "CAM: Open ST Directory: Lib",
         "command": "open_sublime_text_dir",
-        "args": { "folder": "lib" }
+        "args": { "folder": "${lib}" }
     },
     {
         "caption": "CAM: Open ST Directory: Local",
         "command": "open_sublime_text_dir",
-        "args": { "folder": "local" }
+        "args": { "folder": "${local}" }
     },
     {
         "caption": "CAM: Open ST Directory: Log",
         "command": "open_sublime_text_dir",
-        "args": { "folder": "log" }
+        "args": { "folder": "${log}" }
     },
     {
         "caption": "CAM: Open ST Directory: Packages",
         "command": "open_sublime_text_dir",
-        "args": { "folder": "packages" }
+        "args": { "folder": "${packages}" }
     },
     {
         "caption": "CAM: Open ST Directory: Package Storage",
         "command": "open_sublime_text_dir",
-        "args": { "folder": "package_storage" }
+        "args": { "folder": "${package_storage}" }
     }
 ]
