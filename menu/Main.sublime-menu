@@ -15,13 +15,6 @@
                 "caption": "-"
             },
             {
-                "caption": "Export Codes to HTML",
-                "command": "export_codes_to_html"
-            },
-            {
-                "caption": "-"
-            },
-            {
                 "caption": "Browse Directory…",
                 "children": [
                     {

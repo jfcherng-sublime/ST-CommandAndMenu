@@ -4,10 +4,6 @@
         "command": "clear_console"
     },
     {
-        "caption": "CAM: Export Codes to HTML",
-        "command": "export_codes_to_html"
-    },
-    {
         "caption": "CAM: Open Git Repo on Web",
         "command": "open_git_repo_on_web"
     },
