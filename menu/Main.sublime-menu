@@ -163,6 +163,13 @@
             },
             {
                 "caption": "-"
+            },
+            {
+                "caption": "Safe Mode",
+                "command": "safe_mode"
+            },
+            {
+                "caption": "-"
             }
         ]
     }
