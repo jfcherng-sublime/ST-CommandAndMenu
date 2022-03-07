@@ -42,7 +42,7 @@ class OpenSublimeTextDirCommand(sublime_plugin.ApplicationCommand):
             sublime.expand_variables(
                 folder,
                 {
-                    **window.extract_variables(),
+                    **window.extract_variables(),  # type: ignore
                     **get_folder_map(),
                 },
             )
