@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Callable, Optional, Tuple, Union
+from typing import Any, Callable, Optional, Tuple, TypeVar, Union, cast
 import re
 import shlex
 import shutil
@@ -8,6 +8,7 @@ import sublime_plugin
 import subprocess
 import threading
 
+AnyCallable = TypeVar("AnyCallable", bound=Callable[..., Any])
 PathLike = Union[str, Path]
 
 
@@ -138,21 +139,21 @@ def get_dir_for_git(view: sublime.View) -> Optional[str]:
     return next(iter(window.folders()), None)
 
 
-def guarantee_git_dir(failed_return: Optional[Any] = None) -> Callable:
-    def decorator(func: Callable) -> Callable:
+def guarantee_git_dir(failed_return: Optional[Any] = None) -> Callable[[AnyCallable], AnyCallable]:
+    def decorator(func: AnyCallable) -> AnyCallable:
         def wrapped(self: sublime_plugin.WindowCommand, *args: Any, **kwargs: Any) -> Any:
             if not ((view := self.window.active_view()) and (git_dir := get_dir_for_git(view))):
                 return failed_return
             return func(self, git_dir, *args, **kwargs)
 
-        return wrapped
+        return cast(AnyCallable, wrapped)
 
     return decorator
 
 
 class OpenGitRepoOnWebCommand(sublime_plugin.WindowCommand):
     @guarantee_git_dir(failed_return=False)
-    def is_enabled(self, git_dir: str) -> bool:
+    def is_enabled(self, git_dir: str) -> bool:  # type: ignore
         return Git.is_in_git_repo(git_dir)
 
     @guarantee_git_dir()
