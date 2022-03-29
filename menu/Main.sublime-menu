@@ -165,8 +165,8 @@
                 "caption": "-"
             },
             {
-                "caption": "Safe Mode",
-                "command": "safe_mode"
+                "caption": "Restart in Safe Mode",
+                "command": "restart_in_safe_mode"
             },
             {
                 "caption": "-"

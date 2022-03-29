@@ -8,8 +8,8 @@
         "command": "open_git_repo_on_web"
     },
     {
-        "caption": "CAM: Safe Mode",
-        "command": "safe_mode"
+        "caption": "CAM: Restart in Safe Mode",
+        "command": "restart_in_safe_mode"
     },
     {
         "caption": "CAM: Toggle log_build_systems()",

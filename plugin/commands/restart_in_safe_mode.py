@@ -25,7 +25,7 @@ def close_application(pid: int, restart_cmd: Optional[Iterable[AnyPath]] = None,
     subprocess.call(cmd, shell=True, startupinfo=startupinfo, **kwargs)
 
 
-class SafeModeCommand(sublime_plugin.ApplicationCommand):
+class RestartInSafeModeCommand(sublime_plugin.ApplicationCommand):
     def run(self) -> None:
         if sublime.ok_cancel_dialog(
             "In order to restart in safe mode, the current Sublime Text has to be closed."

@@ -9,7 +9,7 @@ from .commands.console_loggings import ToggleLogInputCommand
 from .commands.console_loggings import ToggleLogResultRegexCommand
 from .commands.open_git_repo_on_web import OpenGitRepoOnWebCommand
 from .commands.open_sublime_text_dir import OpenSublimeTextDirCommand
-from .commands.safe_mode import SafeModeCommand
+from .commands.restart_in_safe_mode import RestartInSafeModeCommand
 
 __all__ = (
     # ST: core
@@ -19,7 +19,7 @@ __all__ = (
     "ClearConsoleCommand",
     "OpenGitRepoOnWebCommand",
     "OpenSublimeTextDirCommand",
-    "SafeModeCommand",
+    "RestartInSafeModeCommand",
     "ToggleLogBuildSystemsCommand",
     "ToggleLogCommandsCommand",
     "ToggleLogControlTreeCommand",
