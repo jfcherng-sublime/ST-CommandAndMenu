@@ -89,10 +89,7 @@ class Git:
                 upstream = self.run("rev-parse", "--symbolic-full-name", "@{upstream}")
                 remote = re.sub(r"^refs/remotes/", "", upstream).partition("/")[0]
 
-            remote_uri = self.run("remote", "get-url", remote)
-            remote_url = self.get_url_from_remote_uri(remote_uri)
-
-            return remote_url
+            return self.get_url_from_remote_uri(self.run("remote", "get-url", remote))
         except GitException:
             return None
 
@@ -116,11 +113,11 @@ class Git:
             url = None
 
         # HTTP
-        if re.search(r"^https?://", uri, re_flags):
+        elif re.search(r"^https?://", uri, re_flags):
             url = uri
 
         # common providers
-        if re.search(r"^git@", uri, re_flags):
+        elif re.search(r"^git@", uri, re_flags):
             parts = uri[4:].split(":")  # "4:" removes "git@"
             host = ":".join(parts[:-1])
             path = parts[-1]
