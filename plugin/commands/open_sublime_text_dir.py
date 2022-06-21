@@ -1,4 +1,4 @@
-from functools import lru_cache
+from functools import lru_cache, wraps
 from pathlib import Path
 from typing import Dict
 import sublime

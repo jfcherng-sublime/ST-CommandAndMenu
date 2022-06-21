@@ -1,4 +1,4 @@
-from abc import ABCMeta
+from abc import ABC
 from typing import Callable, Optional
 import sublime
 import sublime_plugin
@@ -6,7 +6,7 @@ import sublime_plugin
 ST_METHODS = set(dir(sublime))
 
 
-class AbstractToggleConsoleLoggingCommand(sublime_plugin.ApplicationCommand, metaclass=ABCMeta):
+class AbstractToggleConsoleLoggingCommand(sublime_plugin.ApplicationCommand, ABC):
     @property
     def logging_method_name(self) -> str:
         # strips the leading "toggle_" from the command name
