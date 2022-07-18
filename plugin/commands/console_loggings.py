@@ -1,5 +1,6 @@
 from abc import ABC
 from typing import Callable, Optional
+
 import sublime
 import sublime_plugin
 

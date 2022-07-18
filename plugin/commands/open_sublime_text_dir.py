@@ -1,9 +1,10 @@
+import tempfile
 from functools import lru_cache, wraps
 from pathlib import Path
 from typing import Dict
+
 import sublime
 import sublime_plugin
-import tempfile
 
 PACKAGE_NAME = __package__.partition(".")[0]
 

@@ -1,12 +1,14 @@
 # import all listeners and commands
 from .commands.clear_console import ClearConsoleCommand
-from .commands.console_loggings import ToggleLogBuildSystemsCommand
-from .commands.console_loggings import ToggleLogCommandsCommand
-from .commands.console_loggings import ToggleLogControlTreeCommand
-from .commands.console_loggings import ToggleLogFpsCommand
-from .commands.console_loggings import ToggleLogIndexingCommand
-from .commands.console_loggings import ToggleLogInputCommand
-from .commands.console_loggings import ToggleLogResultRegexCommand
+from .commands.console_loggings import (
+    ToggleLogBuildSystemsCommand,
+    ToggleLogCommandsCommand,
+    ToggleLogControlTreeCommand,
+    ToggleLogFpsCommand,
+    ToggleLogIndexingCommand,
+    ToggleLogInputCommand,
+    ToggleLogResultRegexCommand,
+)
 from .commands.open_git_repo_on_web import OpenGitRepoOnWebCommand
 from .commands.open_sublime_text_dir import OpenSublimeTextDirCommand
 from .commands.restart_in_safe_mode import RestartInSafeModeCommand

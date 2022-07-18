@@ -1,9 +1,10 @@
+import os
+import subprocess
 from pathlib import Path
 from typing import Any, Iterable, Optional, Union
+
 import sublime
 import sublime_plugin
-import subprocess
-import os
 
 AnyPath = Union[str, Path]
 

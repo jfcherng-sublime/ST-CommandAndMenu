@@ -1,12 +1,13 @@
-from pathlib import Path
-from typing import Any, Callable, Optional, Tuple, TypeVar, Union, cast
 import re
 import shlex
 import shutil
-import sublime
-import sublime_plugin
 import subprocess
 import threading
+from pathlib import Path
+from typing import Any, Callable, Optional, Tuple, TypeVar, Union, cast
+
+import sublime
+import sublime_plugin
 
 AnyCallable = TypeVar("AnyCallable", bound=Callable[..., Any])
 PathLike = Union[str, Path]
