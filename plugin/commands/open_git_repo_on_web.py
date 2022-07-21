@@ -3,13 +3,14 @@ import shlex
 import shutil
 import subprocess
 import threading
+from functools import wraps
 from pathlib import Path
 from typing import Any, Callable, Optional, Tuple, TypeVar, Union, cast
 
 import sublime
 import sublime_plugin
 
-AnyCallable = TypeVar("AnyCallable", bound=Callable[..., Any])
+T_Callable = TypeVar("T_Callable", bound=Callable[..., Any])
 PathLike = Union[str, Path]
 
 
@@ -106,25 +107,31 @@ class Git:
 
     @staticmethod
     def get_url_from_remote_uri(uri: str) -> Optional[str]:
-        url: Optional[str] = None
-        re_flags = re.IGNORECASE | re.MULTILINE
+        def remove_trailing_dot_git(s: str) -> str:
+            return s[:-4] if s.endswith(".git") else s
 
-        # SSH (unsupported)
-        if re.search(r"^ssh://", uri, re_flags):
-            url = None
+        # user-defined rules
+        preferences = sublime.load_settings("Preferences.sublime-settings")
+        for rule in preferences.get("repo.remote_to_web_url", []):
+            if re.match(rule["search"], uri):
+                return re.sub(rule["search"], rule["replace"], uri)
+
+        # SSH (no common rule)
+        if uri.startswith("ssh://"):
+            return None
 
         # HTTP
-        elif re.search(r"^https?://", uri, re_flags):
-            url = uri
+        if uri.startswith(("http://", "https://")):
+            return remove_trailing_dot_git(uri)
 
-        # common providers
-        elif re.search(r"^git@", uri, re_flags):
+        # GitHub
+        if uri.startswith("git@"):
             parts = uri[4:].split(":")  # "4:" removes "git@"
             host = ":".join(parts[:-1])
             path = parts[-1]
-            url = f"https://{host}/{path}"
+            return remove_trailing_dot_git(f"https://{host}/{path}")
 
-        return re.sub(r"\.git$", "", url, re_flags) if url else None
+        return None
 
 
 def get_dir_for_git(view: sublime.View) -> Optional[str]:
@@ -137,24 +144,25 @@ def get_dir_for_git(view: sublime.View) -> Optional[str]:
     return next(iter(window.folders()), None)
 
 
-def guarantee_git_dir(failed_return: Optional[Any] = None) -> Callable[[AnyCallable], AnyCallable]:
-    def decorator(func: AnyCallable) -> AnyCallable:
+def provide_git_dir(failed_return: Any = None) -> Callable[[T_Callable], T_Callable]:
+    def decorator(func: T_Callable) -> T_Callable:
+        @wraps(func)
         def wrapped(self: sublime_plugin.WindowCommand, *args: Any, **kwargs: Any) -> Any:
             if not ((view := self.window.active_view()) and (git_dir := get_dir_for_git(view))):
                 return failed_return
             return func(self, git_dir, *args, **kwargs)
 
-        return cast(AnyCallable, wrapped)
+        return cast(T_Callable, wrapped)
 
     return decorator
 
 
 class OpenGitRepoOnWebCommand(sublime_plugin.WindowCommand):
-    @guarantee_git_dir(failed_return=False)
+    @provide_git_dir(failed_return=False)
     def is_enabled(self, git_dir: str) -> bool:  # type: ignore
         return Git.is_in_git_repo(git_dir)
 
-    @guarantee_git_dir()
+    @provide_git_dir()
     def run(self, git_dir: str, remote: Optional[str] = None) -> None:
         t = threading.Thread(target=self._worker, args=(git_dir, remote))
         t.start()
