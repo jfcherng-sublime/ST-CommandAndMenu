@@ -4,8 +4,6 @@ from typing import Callable, Optional
 import sublime
 import sublime_plugin
 
-ST_METHODS = set(dir(sublime))
-
 
 class AbstractToggleConsoleLoggingCommand(sublime_plugin.ApplicationCommand, ABC):
     @property
@@ -29,7 +27,10 @@ class AbstractToggleConsoleLoggingCommand(sublime_plugin.ApplicationCommand, ABC
         return (self.logging_status_method)()
 
     def is_enabled(self) -> bool:
-        return self.logging_method_name in ST_METHODS
+        try:
+            return bool(self.logging_method and self.logging_status_method)
+        except AttributeError:
+            return False
 
     is_visible = is_enabled
 
@@ -39,42 +40,42 @@ class AbstractToggleConsoleLoggingCommand(sublime_plugin.ApplicationCommand, ABC
 
 
 class ToggleLogBuildSystemsCommand(AbstractToggleConsoleLoggingCommand):
-    """Toggle `sublime.log_build_systems()`"""
+    """Toggle `sublime.log_build_systems()`."""
 
-    ...
+    pass
 
 
 class ToggleLogCommandsCommand(AbstractToggleConsoleLoggingCommand):
-    """Toggle `sublime.log_commands()`"""
+    """Toggle `sublime.log_commands()`."""
 
-    ...
+    pass
 
 
 class ToggleLogControlTreeCommand(AbstractToggleConsoleLoggingCommand):
-    """Toggle `sublime.log_control_tree()`"""
+    """Toggle `sublime.log_control_tree()`."""
 
-    ...
+    pass
 
 
 class ToggleLogFpsCommand(AbstractToggleConsoleLoggingCommand):
-    """Toggle `sublime.log_fps()`"""
+    """Toggle `sublime.log_fps()`."""
 
-    ...
+    pass
 
 
 class ToggleLogIndexingCommand(AbstractToggleConsoleLoggingCommand):
-    """Toggle `sublime.log_indexing()`"""
+    """Toggle `sublime.log_indexing()`."""
 
-    ...
+    pass
 
 
 class ToggleLogInputCommand(AbstractToggleConsoleLoggingCommand):
-    """Toggle `sublime.log_input()`"""
+    """Toggle `sublime.log_input()`."""
 
-    ...
+    pass
 
 
 class ToggleLogResultRegexCommand(AbstractToggleConsoleLoggingCommand):
-    """Toggle `sublime.log_result_regex()`"""
+    """Toggle `sublime.log_result_regex()`."""
 
-    ...
+    pass

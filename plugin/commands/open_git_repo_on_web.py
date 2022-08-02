@@ -89,7 +89,7 @@ class Git:
             if not remote:
                 # `upstream` will be something like "refs/remotes/origin/master"
                 upstream = self.run("rev-parse", "--symbolic-full-name", "@{upstream}")
-                remote = re.sub(r"^refs/remotes/", "", upstream).partition("/")[0]
+                remote = upstream.split("/", 3)[2]
 
             return self.get_url_from_remote_uri(self.run("remote", "get-url", remote))
         except GitException:
@@ -116,19 +116,14 @@ class Git:
             if re.match(rule["search"], uri):
                 return re.sub(rule["search"], rule["replace"], uri)
 
-        # SSH (no common rule)
-        if uri.startswith("ssh://"):
-            return None
-
         # HTTP
         if uri.startswith(("http://", "https://")):
             return remove_trailing_dot_git(uri)
 
         # GitHub
         if uri.startswith("git@"):
-            parts = uri[4:].split(":")  # "4:" removes "git@"
-            host = ":".join(parts[:-1])
-            path = parts[-1]
+            # example => git@github.com:jfcherng-sublime/ST-CommandAndMenu.git
+            host, _, path = uri[4:].rpartition(":")  # "4:" removes "git@"
             return remove_trailing_dot_git(f"https://{host}/{path}")
 
         return None
@@ -169,10 +164,8 @@ class OpenGitRepoOnWebCommand(sublime_plugin.WindowCommand):
 
     @staticmethod
     def _worker(git_dir: str, remote: Optional[str] = None) -> None:
-        if not (git := Git(git_dir)):
+        if not (repo_url := Git(git_dir).get_remote_web_url(remote=remote)):
+            sublime.error_message("Can't determine repo web URL...")
             return
-
-        if not (repo_url := git.get_remote_web_url(remote=remote)):
-            return sublime.error_message("Can't determine repo web URL...")
 
         sublime.run_command("open_url", {"url": repo_url})
