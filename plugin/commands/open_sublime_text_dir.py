@@ -16,23 +16,23 @@ def get_folder_map() -> Dict[str, str]:
 
     return {
         name: str(path.resolve())
-        for name, path in {
+        for name, path in (
             # from OS
-            "home": Path.home(),
-            "temp_dir": Path(tempfile.gettempdir()),
+            ("home", Path.home()),
+            ("temp_dir", Path(tempfile.gettempdir())),
             # from ST itself
-            "bin": Path(sublime.executable_path()).parent,
-            "cache": cache_path,
-            "data": packages_path / "..",
-            "index": cache_path / ".." / "Index",
-            "installed_packages": Path(sublime.installed_packages_path()),
-            "lib": packages_path / ".." / "Lib",
-            "local": packages_path / ".." / "Local",
-            "log": packages_path / ".." / "Log",
-            "packages": packages_path,
+            ("bin", Path(sublime.executable_path()).parent),
+            ("cache", cache_path),
+            ("data", packages_path / ".."),
+            ("index", cache_path / ".." / "Index"),
+            ("installed_packages", Path(sublime.installed_packages_path())),
+            ("lib", packages_path / ".." / "Lib"),
+            ("local", packages_path / ".." / "Local"),
+            ("log", packages_path / ".." / "Log"),
+            ("packages", packages_path),
             # from LSP
-            "package_storage": cache_path / ".." / "Package Storage",
-        }.items()
+            ("package_storage", cache_path / ".." / "Package Storage"),
+        )
     }
 
 
