@@ -1,0 +1,23 @@
+[
+    {
+        "caption": "-",
+    },
+    {
+        "caption": "Pin this tab…",
+        "command": "pin_tab",
+        "args": {"group": -1, "index": -1},
+    },
+    {
+        "caption": "Unpin this tab…",
+        "command": "unpin_tab",
+        "args": {"group": -1, "index": -1},
+    },
+    {
+        "caption": "Close unpinned tabs…",
+        "command": "close_unpinned_tabs",
+        // "args": {"no_ask": true},
+    },
+    {
+        "caption": "-",
+    },
+]

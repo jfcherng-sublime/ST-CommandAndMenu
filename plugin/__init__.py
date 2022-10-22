@@ -11,6 +11,7 @@ from .commands.console_loggings import (
 )
 from .commands.open_git_repo_on_web import OpenGitRepoOnWebCommand
 from .commands.open_sublime_text_dir import OpenSublimeTextDirCommand
+from .commands.pin_tab import CloseUnpinnedTabsCommand, PinTabCommand, UnpinTabCommand
 from .commands.restart_in_safe_mode import RestartInSafeModeCommand
 
 __all__ = (
@@ -19,8 +20,10 @@ __all__ = (
     "plugin_unloaded",
     # ST: commands
     "ClearConsoleCommand",
+    "CloseUnpinnedTabsCommand",
     "OpenGitRepoOnWebCommand",
     "OpenSublimeTextDirCommand",
+    "PinTabCommand",
     "RestartInSafeModeCommand",
     "ToggleLogBuildSystemsCommand",
     "ToggleLogCommandsCommand",
@@ -29,6 +32,7 @@ __all__ = (
     "ToggleLogIndexingCommand",
     "ToggleLogInputCommand",
     "ToggleLogResultRegexCommand",
+    "UnpinTabCommand",
 )
 
 
