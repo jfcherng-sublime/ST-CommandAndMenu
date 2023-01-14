@@ -12,19 +12,19 @@ class AbstractToggleConsoleLoggingCommand(sublime_plugin.ApplicationCommand, ABC
         return self.name()[7:]
 
     @property
-    def logging_method(self) -> Callable[..., None]:
-        return getattr(sublime, self.logging_method_name)
+    def logging_method(self) -> Optional[Callable[..., None]]:
+        return getattr(sublime, self.logging_method_name, None)
 
     @property
-    def logging_status_method(self) -> Callable[[], bool]:
-        return getattr(sublime, f"get_{self.logging_method_name}")
+    def logging_status_method(self) -> Optional[Callable[[], bool]]:
+        return getattr(sublime, f"get_{self.logging_method_name}", None)
 
     def description(self) -> str:
         # "toogle_log_fps" => "Toggle log fps"
         return self.name().replace("_", " ").capitalize()
 
     def is_checked(self) -> bool:
-        return (self.logging_status_method)()
+        return (self.logging_status_method)() if self.logging_status_method else False
 
     def is_enabled(self) -> bool:
         try:
@@ -35,6 +35,8 @@ class AbstractToggleConsoleLoggingCommand(sublime_plugin.ApplicationCommand, ABC
     is_visible = is_enabled
 
     def run(self, enable: Optional[bool] = None) -> None:
+        if not self.logging_method:
+            return
         args = tuple() if enable is None else (enable,)
         self.logging_method(*args)
 
