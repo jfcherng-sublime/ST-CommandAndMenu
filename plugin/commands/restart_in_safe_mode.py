@@ -37,7 +37,7 @@ class RestartInSafeModeCommand(sublime_plugin.ApplicationCommand):
     @staticmethod
     def go_safe_mode() -> None:
         bin_dir = Path(sublime.executable_path()).parent
-        bin_name = "subl.exe" if sublime.platform() == "windows" else "subl"
+        bin_name = "sublime_text.exe" if sublime.platform() == "windows" else "sublime_text"
 
         # close ST and restart in safe mode
         close_application(
