@@ -24,14 +24,14 @@ def get_folder_map() -> Dict[str, str]:
             ("bin", Path(sublime.executable_path()).parent),
             ("cache", cache_path),
             ("data", packages_path / ".."),
-            ("index", cache_path / ".." / "Index"),
+            ("index", cache_path / "../Index"),
             ("installed_packages", Path(sublime.installed_packages_path())),
-            ("lib", packages_path / ".." / "Lib"),
-            ("local", packages_path / ".." / "Local"),
-            ("log", packages_path / ".." / "Log"),
+            ("lib", packages_path / "../Lib"),
+            ("local", packages_path / "../Local"),
+            ("log", packages_path / "../Log"),
             ("packages", packages_path),
             # from LSP
-            ("package_storage", cache_path / ".." / "Package Storage"),
+            ("package_storage", cache_path / "../Package Storage"),
         )
     }
 

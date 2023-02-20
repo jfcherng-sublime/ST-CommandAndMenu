@@ -35,8 +35,8 @@ class UnpinTabCommand(sublime_plugin.WindowCommand):
 
 
 class CloseUnpinnedTabsCommand(sublime_plugin.WindowCommand):
-    def run(self, no_ask: bool = False) -> None:
-        if not no_ask and not sublime.ok_cancel_dialog("Close all unpinned tabs?"):
+    def run(self, ask: bool = True) -> None:
+        if ask and not sublime.ok_cancel_dialog("Close all unpinned tabs?"):
             return
 
         for view in self.window.views(include_transient=True):
