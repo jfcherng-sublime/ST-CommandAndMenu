@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from abc import ABC
-from typing import Callable, Optional
+from typing import Callable
 
 import sublime
 import sublime_plugin
@@ -12,11 +14,11 @@ class AbstractToggleConsoleLoggingCommand(sublime_plugin.ApplicationCommand, ABC
         return self.name()[7:]
 
     @property
-    def logging_method(self) -> Optional[Callable[..., None]]:
+    def logging_method(self) -> Callable[..., None] | None:
         return getattr(sublime, self.logging_method_name, None)
 
     @property
-    def logging_status_method(self) -> Optional[Callable[[], bool]]:
+    def logging_status_method(self) -> Callable[[], bool] | None:
         return getattr(sublime, f"get_{self.logging_method_name}", None)
 
     def description(self) -> str:
@@ -34,7 +36,7 @@ class AbstractToggleConsoleLoggingCommand(sublime_plugin.ApplicationCommand, ABC
 
     is_visible = is_enabled
 
-    def run(self, enable: Optional[bool] = None) -> None:
+    def run(self, enable: bool | None = None) -> None:
         if not self.logging_method:
             return
         args = tuple() if enable is None else (enable,)

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import re
 import shlex
 import shutil
@@ -5,13 +7,12 @@ import subprocess
 import threading
 from functools import wraps
 from pathlib import Path
-from typing import Any, Callable, Optional, Tuple, TypeVar, Union, cast
+from typing import Any, Callable, TypeVar, cast
 
 import sublime
 import sublime_plugin
 
 T_Callable = TypeVar("T_Callable", bound=Callable[..., Any])
-PathLike = Union[str, Path]
 
 
 class GitException(Exception):
@@ -26,7 +27,7 @@ class Git:
 
     def __init__(
         self,
-        repo_path: PathLike,
+        repo_path: str | Path,
         git_bin: str = "git",
         encoding: str = "utf-8",
         shell: bool = False,
@@ -76,14 +77,14 @@ class Git:
 
         return out.rstrip()
 
-    def get_version(self) -> Optional[Tuple[int, int, int]]:
+    def get_version(self) -> tuple[int, int, int] | None:
         try:
             m = re.search(r"(\d+)\.(\d+)\.(\d+)", self.run("version"))
             return tuple(map(int, m.groups())) if m else None  # type: ignore
         except GitException:
             return None
 
-    def get_remote_web_url(self, remote: Optional[str] = None) -> Optional[str]:
+    def get_remote_web_url(self, remote: str | None = None) -> str | None:
         try:
             # use the tracking upstream
             if not remote:
@@ -96,7 +97,7 @@ class Git:
             return None
 
     @staticmethod
-    def is_in_git_repo(path: PathLike) -> bool:
+    def is_in_git_repo(path: str | Path) -> bool:
         path_prev, path = None, Path(path).resolve()
         while path != path_prev:
             # git dir or worktree, which has a .git file in it
@@ -106,7 +107,7 @@ class Git:
         return False
 
     @staticmethod
-    def get_url_from_remote_uri(uri: str) -> Optional[str]:
+    def get_url_from_remote_uri(uri: str) -> str | None:
         def remove_trailing_dot_git(s: str) -> str:
             return s[:-4] if s.endswith(".git") else s
 
@@ -129,7 +130,7 @@ class Git:
         return None
 
 
-def get_dir_for_git(view: sublime.View) -> Optional[str]:
+def _get_dir_for_git(view: sublime.View) -> str | None:
     if filename := view.file_name():
         return str(Path(filename).parent)
 
@@ -139,11 +140,11 @@ def get_dir_for_git(view: sublime.View) -> Optional[str]:
     return next(iter(window.folders()), None)
 
 
-def provide_git_dir(failed_return: Any = None) -> Callable[[T_Callable], T_Callable]:
+def _provide_git_dir(failed_return: Any = None) -> Callable[[T_Callable], T_Callable]:
     def decorator(func: T_Callable) -> T_Callable:
         @wraps(func)
         def wrapped(self: sublime_plugin.WindowCommand, *args: Any, **kwargs: Any) -> Any:
-            if not ((view := self.window.active_view()) and (git_dir := get_dir_for_git(view))):
+            if not ((view := self.window.active_view()) and (git_dir := _get_dir_for_git(view))):
                 return failed_return
             return func(self, git_dir, *args, **kwargs)
 
@@ -153,17 +154,17 @@ def provide_git_dir(failed_return: Any = None) -> Callable[[T_Callable], T_Calla
 
 
 class OpenGitRepoOnWebCommand(sublime_plugin.WindowCommand):
-    @provide_git_dir(failed_return=False)
+    @_provide_git_dir(failed_return=False)
     def is_enabled(self, git_dir: str) -> bool:  # type: ignore
         return Git.is_in_git_repo(git_dir)
 
-    @provide_git_dir()
-    def run(self, git_dir: str, remote: Optional[str] = None) -> None:
+    @_provide_git_dir()
+    def run(self, git_dir: str, remote: str | None = None) -> None:
         t = threading.Thread(target=self._worker, args=(git_dir, remote))
         t.start()
 
     @staticmethod
-    def _worker(git_dir: str, remote: Optional[str] = None) -> None:
+    def _worker(git_dir: str, remote: str | None = None) -> None:
         if not (repo_url := Git(git_dir).get_remote_web_url(remote=remote)):
             sublime.error_message("Can't determine repo web URL...")
             return

@@ -1,15 +1,15 @@
+from __future__ import annotations
+
 import os
 import subprocess
 from pathlib import Path
-from typing import Any, Iterable, Optional, Union
+from typing import Any, Iterable
 
 import sublime
 import sublime_plugin
 
-AnyPath = Union[str, Path]
 
-
-def close_application(pid: int, post_close_cmd: Optional[Iterable[AnyPath]] = None, **kwargs: Any) -> None:
+def _close_application(pid: int, post_close_cmd: Iterable[str | Path] | None = None, **kwargs: Any) -> None:
     if sublime.platform() == "windows":
         cmd = ["taskkill", "/f", "/pid", str(pid)]
         # do not create a window for the process
@@ -36,11 +36,7 @@ class RestartInSafeModeCommand(sublime_plugin.ApplicationCommand):
 
     @staticmethod
     def go_safe_mode() -> None:
-        bin_dir = Path(sublime.executable_path()).parent
-        bin_name = "sublime_text.exe" if sublime.platform() == "windows" else "sublime_text"
-
-        # close ST and restart in safe mode
-        close_application(
+        _close_application(
             os.getppid(),  # plugin_host's parent is the Sublime Text process
-            post_close_cmd=(bin_dir / bin_name, "--safe-mode"),
+            post_close_cmd=(sublime.executable_path(), "--safe-mode"),
         )
