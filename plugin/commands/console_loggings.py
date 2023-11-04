@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC
-from typing import Callable
+from collections.abc import Callable
 
 import sublime
 import sublime_plugin

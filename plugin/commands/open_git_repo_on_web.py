@@ -5,9 +5,10 @@ import shlex
 import shutil
 import subprocess
 import threading
+from collections.abc import Callable
 from functools import wraps
 from pathlib import Path
-from typing import Any, Callable, TypeVar, cast
+from typing import Any, TypeVar, cast
 
 import sublime
 import sublime_plugin
