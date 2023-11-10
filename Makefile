@@ -1,15 +1,18 @@
 .PHONY: all
-all: fix
+all:
 
-.PHONY: check
-check:
+.PHONY: install
+install:
+	python -m pip install -U pip -r requirements.txt
+
+.PHONY: ci-check
+ci-check:
 	mypy -p plugin
-	flake8 .
-	black --check --diff .
-	isort --check --diff .
+	ruff check --diff --preview .
+	black --diff --preview --check .
 
-.PHONY: fix
-fix:
-	autoflake --in-place .
-	black .
-	isort .
+.PHONY: ci-fix
+ci-fix:
+	ruff check --preview --fix .
+	# ruff format --preview .
+	black --preview .
