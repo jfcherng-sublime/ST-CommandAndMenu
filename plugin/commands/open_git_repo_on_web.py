@@ -8,7 +8,7 @@ import subprocess
 import threading
 from functools import lru_cache, wraps
 from pathlib import Path
-from typing import Any, Callable, Final, TypeVar, cast
+from typing import Any, Callable, TypeVar, cast
 
 import sublime
 import sublime_plugin
@@ -42,8 +42,8 @@ class Git:
         encoding: str = "utf-8",
         timeout_s: float = 3,
     ) -> None:
-        self.git_bin = git_bin
-        self.workspace = workspace
+        self.git_bin = str(git_bin)
+        self.workspace = Path(workspace)
         self.encoding = encoding
         self.timeout_s = timeout_s
 
@@ -180,8 +180,10 @@ def find_git_bin() -> str | None:
     if os.name == "nt":
         if sublime_merge_path:
             candidates.append(Path(sublime_merge_path) / "Git/cmd/git.exe")
-        candidates.append(R"C:\Program Files\Sublime Merge\Git\cmd\git.exe")
-        candidates.append(Path(sublime.executable_path()) / "../../Sublime Merge/Git/cmd/git.exe")
+        candidates.extend((
+            R"C:\Program Files\Sublime Merge\Git\cmd\git.exe",  # default installation
+            Path(sublime.executable_path()) / "../../Sublime Merge/Git/cmd/git.exe",  # neighbor installation
+        ))
 
     return first_true(map(shutil.which, map(str, candidates)))
 
