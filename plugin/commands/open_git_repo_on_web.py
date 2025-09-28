@@ -191,7 +191,7 @@ def find_git_bin() -> str | None:
 def remote_uri_to_web_url(uri: str) -> str | None:
     # user-defined rules
     for rule in get_st_preference("repo.remote_to_web_url", []):
-        if re.match(rule["search"], uri):
+        if re.search(rule["search"], uri):
             return re.sub(rule["search"], rule["replace"], uri)
 
     # HTTP
@@ -199,10 +199,13 @@ def remote_uri_to_web_url(uri: str) -> str | None:
         return uri
 
     # Bitbucket / GitHub / GitLab / ...
-    if uri.startswith("git@"):
-        # example => git@github.com:jfcherng-sublime/ST-CommandAndMenu.git
-        host, _, path = uri[4:].rpartition(":")  # "4:" removes leading "git@"
-        return f"https://{host}/{path}"
+    # e.g., git@github.com:jfcherng-sublime/ST-CommandAndMenu.git
+    if m := re.match(r"^git@(?P<host>[^:]+):(?P<project>.*)", uri):
+        host: str = m.group("host")
+        project: str = m.group("project")
+        if project.endswith(".git"):
+            project = project[:-4]  # reduce a HTTP redirect
+        return f"https://{host}/{project}"
 
     return None
 
