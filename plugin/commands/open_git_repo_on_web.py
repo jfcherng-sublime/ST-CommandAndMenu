@@ -6,9 +6,10 @@ import shlex
 import shutil
 import subprocess
 import threading
+from collections.abc import Callable
 from functools import lru_cache, wraps
 from pathlib import Path
-from typing import Any, Callable, TypeVar, cast
+from typing import Any, TypeVar, cast
 
 import sublime
 import sublime_plugin
@@ -203,8 +204,7 @@ def remote_uri_to_web_url(uri: str) -> str | None:
     if m := re.match(r"^git@(?P<host>[^:]+):(?P<project>.*)", uri):
         host: str = m.group("host")
         project: str = m.group("project")
-        if project.endswith(".git"):
-            project = project[:-4]  # reduce a HTTP redirect
+        project = project.removesuffix(".git")  # reduce a HTTP redirect
         return f"https://{host}/{project}"
 
     return None

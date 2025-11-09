@@ -52,11 +52,7 @@ class OpenSublimeTextDirCommand(sublime_plugin.ApplicationCommand):
         path = Path(
             sublime.expand_variables(
                 folder,
-                {
-                    **os.environ,
-                    **window.extract_variables(),  # type: ignore
-                    **self.folder_map,
-                },
+                os.environ | window.extract_variables() | self.folder_map,
             )
         )
 
