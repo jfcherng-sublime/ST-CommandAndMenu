@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import override
+
 import sublime
 import sublime_plugin
 
@@ -9,6 +11,7 @@ ST_SETTING_CONSOLE_MAX_HISTORY_LINES = "console_max_history_lines"
 
 
 class ClearConsoleCommand(sublime_plugin.ApplicationCommand):
+    @override
     def run(self) -> None:
         settings = sublime.load_settings("Preferences.sublime-settings")
         current: int = settings.get(ST_SETTING_CONSOLE_MAX_HISTORY_LINES)

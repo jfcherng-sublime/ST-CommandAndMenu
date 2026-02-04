@@ -3,6 +3,7 @@ from __future__ import annotations
 from abc import ABC
 from collections.abc import Callable
 from functools import cached_property
+from typing import override
 
 import sublime
 import sublime_plugin
@@ -29,18 +30,22 @@ class AbstractToggleConsoleLoggingCommand(sublime_plugin.ApplicationCommand, ABC
         """The current status of the logger. `None` if there is no such logger."""
         return self.logger_status_getter() if self.logger_status_getter else None
 
+    @override
     def description(self) -> str:
         # "toogle_log_fps" => "Toggle Log FPS"
         return self.name().replace("_", " ").title().replace("Fps", "FPS")
 
+    @override
     def is_checked(self) -> bool:
         return bool(self.logger_status)
 
+    @override
     def is_enabled(self) -> bool:
         return bool(self.logger_status_getter and self.logger_status_setter)
 
     is_visible = is_enabled
 
+    @override
     def run(self, enable: bool | None = None) -> None:
         if self.logger_status_setter:
             if enable is None:

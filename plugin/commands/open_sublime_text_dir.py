@@ -4,6 +4,7 @@ import os
 import tempfile
 from functools import cached_property
 from pathlib import Path
+from typing import override
 
 import sublime
 import sublime_plugin
@@ -47,6 +48,7 @@ class OpenSublimeTextDirCommand(sublime_plugin.ApplicationCommand):
             )
         }
 
+    @override
     def run(self, folder: str, error_on_not_found: bool = True) -> None:
         window = sublime.active_window()
         path = Path(

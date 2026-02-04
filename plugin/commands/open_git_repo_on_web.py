@@ -9,7 +9,7 @@ import threading
 from collections.abc import Callable
 from functools import lru_cache, wraps
 from pathlib import Path
-from typing import Any, TypeVar, cast
+from typing import Any, TypeVar, cast, override
 
 import sublime
 import sublime_plugin
@@ -211,10 +211,12 @@ def remote_uri_to_web_url(uri: str) -> str | None:
 
 
 class OpenGitRepoOnWebCommand(sublime_plugin.WindowCommand):
+    @override
     @_provide_git_dir(failed_return=False)
     def is_enabled(self, git_dir: str) -> bool:  # type: ignore
         return Git.is_managed(git_dir)
 
+    @override
     @_provide_git_dir()
     def run(self, git_dir: str, remote: str | None = None) -> None:
         t = threading.Thread(target=self._worker, args=(git_dir, remote))

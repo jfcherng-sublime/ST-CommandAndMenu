@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import override
+
 import sublime
 import sublime_plugin
 
@@ -27,22 +29,27 @@ def _unpin_view(view: sublime.View) -> None:
 
 
 class PinTabCommand(sublime_plugin.WindowCommand):
+    @override
     def is_visible(self, group: int, index: int) -> bool:  # type: ignore
         return not _is_view_pinned(self.window.views_in_group(group)[index])
 
+    @override
     def run(self, group: int, index: int) -> None:
         _pin_view(self.window.views_in_group(group)[index])
 
 
 class UnpinTabCommand(sublime_plugin.WindowCommand):
+    @override
     def is_visible(self, group: int, index: int) -> bool:  # type: ignore
         return _is_view_pinned(self.window.views_in_group(group)[index])
 
+    @override
     def run(self, group: int, index: int) -> None:
         _unpin_view(self.window.views_in_group(group)[index])
 
 
 class CloseUnpinnedTabsCommand(sublime_plugin.WindowCommand):
+    @override
     def run(self, ask: bool = True) -> None:
         if ask and not sublime.ok_cancel_dialog("Close all unpinned tabs?"):
             return
