@@ -78,7 +78,8 @@ class Git:
         except GitCommandError:
             return None
         if m := re.search(r"(\d+)\.(\d+)\.(\d+)", v_str):
-            return tuple(map(int, m.groups()))  # type: ignore
+            major, minor, patch = map(int, m.groups())
+            return (major, minor, patch)
         return None
 
     @classmethod
