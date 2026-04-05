@@ -9,15 +9,13 @@ import threading
 from collections.abc import Callable
 from functools import lru_cache, wraps
 from pathlib import Path
-from typing import Any, TypeVar, cast, override
+from typing import Any, cast, override
 
 import sublime
 import sublime_plugin
 from more_itertools import first, first_true
 
 from ..constants import STARTUPINFO_DEFAULT
-
-_T_AnyCallable = TypeVar("_T_AnyCallable", bound=Callable[..., Any])
 
 
 class GitError(Exception):
@@ -151,15 +149,15 @@ def _get_git_workspace(window: sublime.Window) -> str | None:
     return first(window.folders(), None)
 
 
-def _provide_git_dir(failed_return: Any = None) -> Callable[[_T_AnyCallable], _T_AnyCallable]:
-    def decorator(func: _T_AnyCallable) -> _T_AnyCallable:
+def _provide_git_dir[T: Callable[..., Any]](failed_return: Any = None) -> Callable[[T], T]:
+    def decorator(func: T) -> T:
         @wraps(func)
         def wrapped(self: sublime_plugin.WindowCommand, *args: Any, **kwargs: Any) -> Any:
             if not (git_dir := _get_git_workspace(self.window)):
                 return failed_return
             return func(self, git_dir, *args, **kwargs)
 
-        return cast(_T_AnyCallable, wrapped)
+        return cast(T, wrapped)
 
     return decorator
 
