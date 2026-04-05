@@ -49,3 +49,8 @@ ci-fix-unsafe:
 	$(ci-base-cmd) ruff check --fix --unsafe-fixes .
 	@echo "========== fix: ruff (format) =========="
 	$(ci-base-cmd) ruff format .
+
+.PHONY: ci-test
+ci-test:
+	@echo "========== test: pytest =========="
+	$(ci-base-cmd) pytest

@@ -186,9 +186,14 @@ def find_git_bin() -> str | None:
     return first_true(map(shutil.which, map(str, candidates)))
 
 
-def remote_uri_to_web_url(uri: str) -> str | None:
+def remote_uri_to_web_url(
+    uri: str,
+    rules: list[dict[str, str]] | None = None,
+) -> str | None:
+    if rules is None:
+        rules = get_st_preference("repo.remote_to_web_url", [])
     # user-defined rules
-    for rule in get_st_preference("repo.remote_to_web_url", []):
+    for rule in rules:
         if re.search(rule["search"], uri):
             return re.sub(rule["search"], rule["replace"], uri)
 
@@ -201,7 +206,7 @@ def remote_uri_to_web_url(uri: str) -> str | None:
     if m := re.match(r"^git@(?P<host>[^:]+):(?P<project>.*)", uri):
         host: str = m.group("host")
         project: str = m.group("project")
-        project = project.removesuffix(".git")  # reduce a HTTP redirect
+        project = project.removesuffix(".git")
         return f"https://{host}/{project}"
 
     return None
