@@ -1,7 +1,5 @@
 # from https://github.com/sublimehq/sublime_text/issues/299#issuecomment-757427207
 
-from __future__ import annotations
-
 from typing import override
 
 import sublime
