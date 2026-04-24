@@ -15,6 +15,8 @@ from more_itertools import first, first_true
 
 from ..constants import STARTUPINFO_DEFAULT
 
+type GitVersion = tuple[int, int, int]
+
 
 class GitError(Exception):
     """General error for git."""
@@ -70,7 +72,7 @@ class Git:
             return None  # detached HEAD or no upstream
 
     @property
-    def version(self) -> tuple[int, int, int] | None:
+    def version(self) -> GitVersion | None:
         try:
             v_str = self.run("version")
         except GitCommandError:
@@ -191,7 +193,8 @@ def remote_uri_to_web_url(
     rules: list[dict[str, str]] | None = None,
 ) -> str | None:
     if rules is None:
-        rules = get_st_preference("repo.remote_to_web_url", [])
+        rules = get_st_preference("repo.remote_to_web_url") or []
+
     # user-defined rules
     for rule in rules:
         if re.search(rule["search"], uri):

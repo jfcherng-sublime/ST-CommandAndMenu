@@ -3,10 +3,9 @@ name = "CommandAndMenu"
 version = "0.0.0"
 description = "Provide some commands and menus for my personal uses."
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 dependencies = [
   "more-itertools==11.*",
-  "typing-extensions>=4.11",
 ]
 
 [dependency-groups]
@@ -24,7 +23,7 @@ default-groups = ["dev"]
 check_untyped_defs = true
 strict_optional = true
 mypy_path = 'typings:stubs'
-python_version = '3.13'
+python_version = '3.14'
 
 [[tool.mypy.overrides]]
 module = ["plugin.libs.*"]
@@ -43,12 +42,12 @@ exclude = [
 ]
 ignore = ['**/.venv', '**/libs']
 stubPath = 'typings'
-pythonVersion = '3.13'
+pythonVersion = '3.14'
 
 [tool.ruff]
 preview = true
 line-length = 120
-target-version = 'py313'
+target-version = 'py314'
 exclude = [
   "*/libs/*",
   ".git",

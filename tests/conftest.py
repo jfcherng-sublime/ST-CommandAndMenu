@@ -2,6 +2,7 @@
 
 import sys
 from abc import ABC
+from typing import Any
 from unittest.mock import MagicMock
 
 
@@ -23,7 +24,7 @@ class _CommandBase(ABC):
     def is_visible(self) -> bool:
         return True
 
-    def run(self, *args, **kwargs):  # type: ignore[no-untyped-def]
+    def run(self, *args: Any, **kwargs: Any) -> None:
         pass
 
 
