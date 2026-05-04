@@ -5,13 +5,17 @@ import shutil
 import subprocess
 import threading
 from collections.abc import Callable
-from functools import lru_cache, wraps
+from functools import lru_cache
+from functools import wraps
 from pathlib import Path
-from typing import Any, cast, override
+from typing import Any
+from typing import cast
+from typing import override
 
 import sublime
 import sublime_plugin
-from more_itertools import first, first_true
+from more_itertools import first
+from more_itertools import first_true
 
 from ..constants import STARTUPINFO_DEFAULT
 
